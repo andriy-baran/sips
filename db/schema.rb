@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_04_132134) do
+ActiveRecord::Schema.define(version: 2018_12_05_122851) do
 
   create_table "cashboxes", force: :cascade do |t|
     t.integer "pos_id"
@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(version: 2018_12_04_132134) do
     t.string "kind"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["pos_id"], name: "index_cashboxes_on_pos_id"
+    t.index ["product_id"], name: "index_cashboxes_on_product_id"
   end
 
   create_table "places", force: :cascade do |t|
@@ -49,6 +51,17 @@ ActiveRecord::Schema.define(version: 2018_12_04_132134) do
     t.string "kind"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["pos_id"], name: "index_stocks_on_pos_id"
+    t.index ["product_id"], name: "index_stocks_on_product_id"
+  end
+
+  create_table "variants", force: :cascade do |t|
+    t.integer "product_id"
+    t.string "weight"
+    t.string "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_variants_on_product_id"
   end
 
 end
