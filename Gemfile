@@ -14,7 +14,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'devise'
 gem 'bootstrap', '~> 4.1.3'
 gem 'jquery-rails', '~> 4.3.1'
-
+gem "letter_opener", :group => :development
 gem 'money-rails', '~>1.12'
 gem 'unitwise'
 
