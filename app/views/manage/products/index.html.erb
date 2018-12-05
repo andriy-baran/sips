@@ -13,6 +13,8 @@
     <% @products.each do |product| %>
       <tr>
         <td><%= product.title %></td>
+        <td><%= product.variant.weight %></td>
+        <td><%= product.variant.price %></td>
         <td><%= link_to 'Show', [:manage, product] %></td>
         <td><%= link_to 'Edit', edit_manage_product_path(product) %></td>
         <td><%= link_to 'Destroy', [:manage, product], method: :delete, data: { confirm: 'Are you sure?' } %></td>

@@ -21,10 +21,11 @@ class Manage::ProductsController < ApplicationController
 
   # POST /manage/products
   def create
-    @product = Product.new(product_params)
+    @operation = Operations::Manage::Products::Create.new(product_params)
+    result = @operation.call
 
-    if @product.save
-      redirect_to [:manage, @product], notice: 'Product was successfully created.'
+    if true
+      redirect_to [:manage, result.product], notice: 'Product was successfully created.'
     else
       render :new
     end
@@ -32,8 +33,11 @@ class Manage::ProductsController < ApplicationController
 
   # PATCH/PUT /manage/products/1
   def update
-    if @product.update(product_params)
-      redirect_to [:manage, @product], notice: 'Product was successfully updated.'
+    @operation = Operations::Manage::Products::Update.new(@product, product_params)
+    result = @operation.call
+
+    if true
+      redirect_to [:manage, result.product], notice: 'Product was successfully updated.'
     else
       render :edit
     end
@@ -42,7 +46,7 @@ class Manage::ProductsController < ApplicationController
   # DELETE /manage/products/1
   def destroy
     @product.destroy
-    redirect_to products_url, notice: 'Product was successfully destroyed.'
+    redirect_to manage_products_url, notice: 'Product was successfully destroyed.'
   end
 
   private
@@ -53,6 +57,6 @@ class Manage::ProductsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def product_params
-      params.fetch(:product, {}).permit(:title)
+      params.fetch(:product, {}).permit(:title, :weight, :price)
     end
 end

@@ -18,6 +18,18 @@
     </div>
   </div>
   <div class="form-group row">
+    <label for="" class="col-4 col-form-label">Вага порції</label>
+    <div class="col-8">
+      <%= form.text_field :weight, value: form.object.persisted? ? form.object.variant.weight : nil, required: "required", class: "form-control here" %>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="" class="col-4 col-form-label">Ціна порції</label>
+    <div class="col-8">
+      <%= form.text_field :price, value: form.object.persisted? ? form.object.variant.price : nil, required: "required", class: "form-control here" %>
+    </div>
+  </div>
+  <div class="form-group row">
     <div class="offset-4 col-8">
       <%= form.submit 'Зберегти', class: "btn btn-primary" %>
     </div>
