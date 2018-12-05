@@ -30,4 +30,8 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  devise:
+    hint_for_fields:
+      email: 'Please enter your email'
+      full_name: 'Please enter your full name'
+      phone: 'Please enter your phone number'
