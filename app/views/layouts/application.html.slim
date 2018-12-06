@@ -8,14 +8,14 @@ html
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   body
-    - unless current_user
-      = link_to 'Login', new_user_session_url, class: 'link_to_login'
-      = link_to 'Sign_up', new_user_registration_url, class: 'link_to_sign_up'
+    - unless current_account
+      = link_to 'Login', new_account_session_url, class: 'link_to_login'
+      = link_to 'Sign_up', new_account_registration_url, class: 'link_to_sign_up'
     - else
-      = link_to 'Log out', destroy_user_session_url, method: :delete, class: 'link_to_log_out'
+      = link_to 'Log out', destroy_account_session_url, method: :delete, class: 'link_to_log_out'
     p.notice
       = notice
     p.alert
       = alert
-    p = current_user.full_name
+    p = current_account.full_name if current_account
     = yield
