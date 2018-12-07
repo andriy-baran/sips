@@ -1,0 +1,25 @@
+p#notice
+  = notice
+h1
+  | Manage Point Of Sales
+table
+  thead
+    tr
+      th[colspan="3"]
+  tbody
+    - @point_of_sales.each do |point_of_sale|
+      tr
+        td
+          = point_of_sale.title
+        td
+          = point_of_sale.place.city
+        td
+          = point_of_sale.place.address
+        td
+          = link_to 'Show', [:manage, point_of_sale]
+        td
+          = link_to 'Edit', edit_manage_point_of_sale_path(point_of_sale)
+        td
+          = link_to 'Destroy', [:manage, point_of_sale], method: :delete, data: { confirm: 'Are you sure?' }
+br
+= link_to 'New Manage Point Of Sale', new_manage_point_of_sale_path
