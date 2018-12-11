@@ -1,0 +1,12 @@
+.col-8
+
+.col-4.w-screen
+  - @products.each do |product|
+    .card.mb-1.row
+      .card-body
+        = product.title
+        | (
+        span.= product.variant.price
+        | )
+      .card-footer.py-1
+        span.text-muted = product.variant.weight

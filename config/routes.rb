@@ -5,5 +5,10 @@ Rails.application.routes.draw do
   namespace :manage do
     resources :products
     resources :point_of_sales
+    resources :accounts, except: %i(new create)
+  end
+
+  namespace :trade do
+    resources :point_of_sales, only: :show
   end
 end
