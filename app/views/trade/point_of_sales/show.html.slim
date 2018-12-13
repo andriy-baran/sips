@@ -1,12 +1,32 @@
-.col-8
-
-.col-4.w-screen
-  - @products.each do |product|
-    .card.mb-1.row
-      .card-body
-        = product.title
-        | (
-        span.= product.variant.price
-        | )
-      .card-footer.py-1
-        span.text-muted = product.variant.weight
+.pos-ui.row
+  .col-8.border.float-left.py-3.h-100.rounded-left.position-relative style='overflow-y: scroll'
+    = form_with(url: '/trade', local: true) do |form|
+      = form.hidden_field :pos_id, value: params[:id]
+      .list-group#order-items
+        .list-group-item.py-2
+          .row.d-flex.align-items-center
+            = form.hidden_field :variant_id, name: 'items[]item[variant_id]'
+            .col-7.pr-0
+              big product_title
+            .col-3.row
+              = form.number_field :quantity, name: 'items[]item[quantity]', class: 'form-control', min: 1
+            .col-2.text-right.pr-0.ml-3
+              big subtotal
+    .total.p-3.row.w-100.position-absolute.text-center.border-top.bg-light.font-weight-bold style='bottom: 0' Загальна сума: 12345 UAH
+  .col-4.border.float-right.py-3.h-100.rounded-right style='overflow-y: scroll'
+    .list-group
+      - @products.each do |product|
+        .list-group-item.product*{'data-id' => product.variant.id, 'data-product' => product.title, 'data-price' => product.variant.price.sub(' UAH', '')  }
+          p.mb-0
+            = product.title
+            | (
+            span.= product.variant.price
+            | )
+          small.text-muted = product.variant.weight
+  .col.px-0.w-100.mt-2
+    .col-6.float-left.pl-0
+      button.btn.btn-outline-success.btn-lg.btn-block
+        strong Оплата
+    .col-6.float-right.pr-0
+      button.btn.btn-outline-danger.btn-lg.btn-block
+        strong Скасувати

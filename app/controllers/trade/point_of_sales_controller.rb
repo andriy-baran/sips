@@ -3,7 +3,7 @@ class Trade::PointOfSalesController < ApplicationController
 
   # GET /trade/point_of_sales/1
   def show
-    @products = Product.all
+    @products = Product.includes(:variant).all
   end
 
   private

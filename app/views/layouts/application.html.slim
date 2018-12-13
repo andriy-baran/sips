@@ -1,6 +1,7 @@
 doctype html
 html
   head
+    meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"
     title
       | Sips
     = csrf_meta_tags
@@ -9,7 +10,9 @@ html
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   body
     .navbar.navbar-expand-md.navbar-light.bg-light.fixed-top
-      .collapse.navbar-collapse
+      button.navbar-toggler type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation"
+        span.navbar-toggler-icon
+      .collapse.navbar-collapse id="navbarToggleExternalContent"
         ul.navbar-nav
           li.nav-item
             = link_to 'Точки продажу', manage_point_of_sales_path, class: 'nav-link'
