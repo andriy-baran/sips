@@ -1,0 +1,2 @@
+module Trade::OrdersHelper
+end

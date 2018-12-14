@@ -22,11 +22,32 @@ $( document ).on('turbolinks:load', function() {
       $('.pos-ui #order-items').append(template);
     }
     bindReactions();
-    setTotal()
+    setTotal();
+  });
+
+  $('.pos-ui .discard').on('click', function(e) {
+    $('.pos-ui #order-items .line-item').remove();
+    $('.pos-ui .total').text('Загальна сума: 0 UAH');
+  })
+
+  $('.pos-ui .payment').on('click', function(e) {
+    if ($('.pos-ui #order-items .line-item').length > 0) {
+      $(e.target).removeClass('payment').addClass('pay-cash').text('Готівка');
+      $('.pos-ui .discard').off('click').removeClass('discard').removeClass('btn-outline-danger').addClass('btn-outline-info').addClass('pay-card').text('Картка');
+      $('.pos-ui .order-controls .pay-card').on('click', function(e) {
+        $('form#order #payment_type').val('card');
+        $('form#order').submit();
+      });
+      $('.pos-ui .order-controls .pay-cash').on('click', function(e) {
+        $('form#order').submit();
+      })
+    } else {
+      return false;
+    }
   })
 
   bindReactions();
-  setTotal()
+  setTotal();
 })
 
 $(window).on("resize", function() {
@@ -36,12 +57,13 @@ $(window).on("resize", function() {
 function bindReactions() {
   $('.pos-ui #order-items .list-group-item #quantity').on('change', function(e) {
     var quantity = parseInt(e.target.value);
-    if (quantity == 0 || quantity == NaN) {
+    if (quantity == 0 || Number.isNaN(quantity)) {
       $(e.target).closest('.list-group-item').remove();
     } else {
       var price = parseFloat($(e.target).data().price);
       $(e.target).closest('.list-group-item').find('.subtotal').text((price*quantity)+' UAH');
     }
+    setTotal();
   })
 }
 
@@ -54,14 +76,14 @@ function setTotal() {
 }
 
 function renderTemplate(id, product, subtotal, quantity, price) {
-  return '<div class="list-group-item py-2" id="variant-'+id+'">'+
+  return '<div class="list-group-item py-2 line-item" id="variant-'+id+'">'+
       '<div class="row d-flex align-items-center">'+
-        '<input name="items[]item[variant_id]" type="hidden" id="variant_id" value="'+id+'">'+
+        '<input name="order[items[]][variant_id]" type="hidden" id="variant_id" value="'+id+'">'+
         '<div class="col-7">'+
           '<big>'+product+'</big>'+
         '</div>'+
         '<div class="col-3 row">'+
-          '<input name="items[]item[quantity]" class="form-control" min="0" type="number" id="quantity" value="'+quantity+'" data-price="'+price+'">'+
+          '<input name="order[items[]][quantity]" class="form-control" min="0" type="number" id="quantity" value="'+quantity+'" data-price="'+price+'">'+
         '</div>'+
         '<div class="col-2 text-right pr-0 ml-3">'+
           '<big class="subtotal">'+subtotal+' UAH</big>'+
