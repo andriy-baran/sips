@@ -10,5 +10,6 @@ Rails.application.routes.draw do
 
   namespace :trade do
     resources :point_of_sales, only: :show
+    resources :orders, only: :create
   end
 end
