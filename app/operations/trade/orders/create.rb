@@ -17,7 +17,7 @@ module Operations
                 product_id: variant.product_id,
                 pos_id: @params[:pos_id],
                 account_id: account.id,
-                quantity: @params[:quantity],
+                quantity: item.quantity,
               }
               track_money(attrs.merge(price: variant.price, kind: @params[:payment_type]))
               track_weight(attrs.merge(weight: variant.weight, kind: 'sell'))

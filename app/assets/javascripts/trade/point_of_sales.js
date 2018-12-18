@@ -76,7 +76,7 @@ function setTotal() {
 }
 
 function renderTemplate(id, product, subtotal, quantity, price) {
-  return '<div class="list-group-item py-2 line-item" id="variant-'+id+'">'+
+  return '<div class="list-group-item py-2 line-item border-left-0 border-right-0" id="variant-'+id+'">'+
       '<div class="row d-flex align-items-center">'+
         '<input name="order[items[]][variant_id]" type="hidden" id="variant_id" value="'+id+'">'+
         '<div class="col-7">'+

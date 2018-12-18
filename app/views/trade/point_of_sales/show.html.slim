@@ -21,7 +21,7 @@
           p.mb-0
             = product.title
             | (
-            span.= product.variant.price
+            span = product.variant.price.format
             | )
           small.text-muted = product.variant.weight
   .col.px-0.w-100.mt-2.order-controls
