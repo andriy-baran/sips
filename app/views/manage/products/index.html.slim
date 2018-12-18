@@ -1,0 +1,28 @@
+p#notice
+  = notice
+h1
+  | Manage Products
+table.table
+  thead
+    tr
+      th Назва
+      th Вага Порції
+      th Ціна Порції
+      th[colspan="3"] Дії
+  tbody
+    - @products.each do |product|
+      tr
+        td
+          = product.title
+        td
+          = product.variant.weight
+        td
+          = product.variant.price
+        td
+          = link_to 'Show', [:manage, product], class: 'btn btn-info btn-sm'
+        td
+          = link_to 'Edit', edit_manage_product_path(product), class: 'btn btn-warning btn-sm'
+        td
+          = link_to 'Destroy', [:manage, product], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm'
+br
+= link_to 'Додати Продукт', new_manage_product_path, class: 'btn btn-success'

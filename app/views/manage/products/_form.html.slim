@@ -1,0 +1,28 @@
+= form_with(model: [:manage, @product], local: true) do |form|
+  - if @product.errors.any?
+    #error_explanation
+      h2
+        = pluralize(@product.errors.count, "error")
+        |  prohibited this product from being saved:
+      ul
+        - @product.errors.full_messages.each do |message|
+          li
+            = message
+  .form-group.row
+    label.col-4.col-form-label[for=""]
+      | Назва Продукту
+    .col-8
+      = form.text_field :title, required: "required", class: "form-control here"
+  .form-group.row
+    label.col-4.col-form-label[for=""]
+      | Вага порції
+    .col-8
+      = form.text_field :weight, value: form.object.persisted? ? form.object.variant.weight : nil, required: "required", class: "form-control here"
+  .form-group.row
+    label.col-4.col-form-label[for=""]
+      | Ціна порції
+    .col-8
+      = form.text_field :price, value: form.object.persisted? ? form.object.variant.price : nil, required: "required", class: "form-control here"
+  .form-group.row
+    .offset-4.col-8
+      = form.submit 'Зберегти', class: "btn btn-primary"

@@ -1,0 +1,32 @@
+.pos-ui.row
+  .col-8.border-left.border-bottom.float-left.px-0.h-100.rounded-left.position-relative style='overflow-y: scroll'
+    .total.p-3.w-100.position-absolute.text-center.border-top.bg-light.font-weight-bold style='bottom: 0' Загальна сума: 12345 UAH
+    .px-3.py-2.w-100.border-top.bg-light
+      .row.d-flex.align-items-center
+        .col-7.pr-0
+          big Продукт
+        .col-3.row
+          big Кількість
+          / = form.number_field :quantity, name: 'items[]item[quantity]', class: 'form-control', min: 1
+        .col-2.text-right.pr-0.ml-3
+          big Вартість
+    = form_with(url: trade_orders_path, local: true, id: 'order') do |form|
+      = form.hidden_field :pos_id, value: params[:id], name: 'order[pos_id]'
+      = form.hidden_field :payment_type, value: 'cash', name: 'order[payment_type]'
+      .list-group#order-items
+  .col-4.border.float-right.py-3.h-100.rounded-right style='overflow-y: scroll'
+    .list-group
+      - @products.each do |product|
+        .list-group-item.product*{'data-id' => product.variant.id, 'data-product' => product.title, 'data-price' => product.variant.price.to_i  }
+          p.mb-0
+            = product.title
+            | (
+            span = product.variant.price.format
+            | )
+          small.text-muted = product.variant.weight
+  .col.px-0.w-100.mt-2.order-controls
+    .col-6.float-left.pl-0
+      button.btn.btn-outline-success.btn-lg.btn-block.payment.font-weight-bold Оплата
+    .col-6.float-right.pr-0
+      button.btn.btn-outline-danger.btn-lg.btn-block.discard.font-weight-bold Скасувати
+

@@ -1,0 +1,28 @@
+= form_with(model: [:manage, point_of_sale], local: true) do |form|
+  - if point_of_sale.errors.any?
+    #error_explanation
+      h2
+        = pluralize(point_of_sale.errors.count, "error")
+        |  prohibited this point_of_sale from being saved:
+      ul
+        - point_of_sale.errors.full_messages.each do |message|
+          li
+            = message
+  .form-group.row
+    label.col-4.col-form-label[for=""]
+      | Назва Точки
+    .col-8
+      = form.text_field :title, required: "required", class: "form-control here"
+  .form-group.row
+    label.col-4.col-form-label[for=""]
+      | Місто
+    .col-8
+      = form.text_field :city, value: form.object.persisted? ? form.object.place.city : nil, required: "required", class: "form-control here"
+  .form-group.row
+    label.col-4.col-form-label[for=""]
+      | Адреса
+    .col-8
+      = form.text_field :address, value: form.object.persisted? ? form.object.place.address : nil, required: "required", class: "form-control here"
+  .form-group.row
+    .offset-4.col-8
+      = form.submit 'Зберегти', class: "btn btn-primary"
