@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_10_092846) do
+ActiveRecord::Schema.define(version: 2018_12_18_182016) do
 
   create_table "accounts", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -33,8 +33,10 @@ ActiveRecord::Schema.define(version: 2018_12_10_092846) do
     t.string "phone"
     t.float "rate_per_hour"
     t.string "avatar"
+    t.integer "pos_id"
     t.index ["confirmation_token"], name: "index_accounts_on_confirmation_token", unique: true
     t.index ["email"], name: "index_accounts_on_email", unique: true
+    t.index ["pos_id"], name: "index_accounts_on_pos_id"
     t.index ["reset_password_token"], name: "index_accounts_on_reset_password_token", unique: true
   end
 
@@ -55,7 +57,6 @@ ActiveRecord::Schema.define(version: 2018_12_10_092846) do
     t.integer "quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_cashboxes_on_account_id"
     t.index ["pos_id"], name: "index_cashboxes_on_pos_id"
     t.index ["product_id"], name: "index_cashboxes_on_product_id"
   end

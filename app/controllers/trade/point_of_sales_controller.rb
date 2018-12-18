@@ -1,6 +1,9 @@
 class Trade::PointOfSalesController < ApplicationController
   before_action :set_point_of_sale, only: [:show]
 
+  def index
+    @point_of_sales = PointOfSale.all
+  end
   # GET /trade/point_of_sales/1
   def show
     @products = Product.includes(:variant).all
