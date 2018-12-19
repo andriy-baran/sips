@@ -93,6 +93,16 @@ function renderTemplate(id, product, subtotal, quantity, price) {
 }
 
 function adoptHeight() {
-  var documentHeight =  $( document ).height();
-  $('.pos-ui').height(documentHeight - 135);
+  var screenHeight =  window.innerHeight;
+  var screenWidth =  window.innerWidth;
+  if (screenHeight > screenWidth) {
+    $('.pos-ui').height(screenHeight - 135);
+  } else {
+    $('.pos-ui').height(screenHeight - 135);
+  }
+  var ordersDivHeight = $('.pos-ui .order').height();
+  var totalDivHeight = $('.pos-ui .total').outerHeight();
+  var headerDivHeight = $('.pos-ui .order-header').outerHeight();
+  $('.pos-ui #order-items').height(ordersDivHeight - (totalDivHeight + headerDivHeight));
+  $('.pos-ui #order-items').css({'margin-bottom': totalDivHeight});
 }
