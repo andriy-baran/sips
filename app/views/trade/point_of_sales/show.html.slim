@@ -1,7 +1,7 @@
 .pos-ui.row
-  .col-8.border-left.border-bottom.float-left.px-0.h-100.rounded-left.position-relative style='overflow-y: scroll'
-    .total.p-3.w-100.position-absolute.text-center.border-top.bg-light.font-weight-bold style='bottom: 0' Загальна сума: 12345 UAH
-    .px-3.py-2.w-100.border-top.bg-light
+  .order.col-8.border-left.border-bottom.float-left.px-0.h-100.rounded-left.position-relative
+    .total.p-3.w-100.position-absolute.text-center.border-top.bg-light.font-weight-bold style='bottom: 0; z-index: 1000' Загальна сума: 12345 UAH
+    .px-3.py-2.w-100.border-top.bg-light.order-header
       .row.d-flex.align-items-center
         .col-7.pr-0
           big Продукт
@@ -13,8 +13,8 @@
     = form_with(url: trade_orders_path, local: true, id: 'order') do |form|
       = form.hidden_field :pos_id, value: params[:id], name: 'order[pos_id]'
       = form.hidden_field :payment_type, value: 'cash', name: 'order[payment_type]'
-      .list-group#order-items
-  .col-4.border.float-right.py-3.h-100.rounded-right style='overflow-y: scroll'
+      .list-group#order-items style='overflow-y: scroll'
+  .products.col-4.border.float-right.py-3.h-100.rounded-right style='overflow-y: scroll'
     .list-group
       - @products.each do |product|
         .list-group-item.product*{'data-id' => product.variant.id, 'data-product' => product.title, 'data-price' => product.variant.price.to_i  }

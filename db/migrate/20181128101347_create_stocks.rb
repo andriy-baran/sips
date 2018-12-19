@@ -4,7 +4,7 @@ class CreateStocks < ActiveRecord::Migration[5.2]
       t.references :pos
       t.references :product, foreign_key: true
       t.references :account, foreign_key: true
-      t.string :weight
+      t.float :weight_kilogram
       t.string :kind
       t.integer :quantity
 

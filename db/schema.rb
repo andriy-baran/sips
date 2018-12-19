@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(version: 2018_12_18_182016) do
     t.integer "pos_id"
     t.integer "product_id"
     t.integer "account_id"
-    t.string "price"
+    t.decimal "price_uah"
     t.string "kind"
     t.integer "quantity"
     t.datetime "created_at", null: false
@@ -97,7 +97,7 @@ ActiveRecord::Schema.define(version: 2018_12_18_182016) do
     t.integer "pos_id"
     t.integer "product_id"
     t.integer "account_id"
-    t.string "weight"
+    t.float "weight_kilogram"
     t.string "kind"
     t.integer "quantity"
     t.datetime "created_at", null: false

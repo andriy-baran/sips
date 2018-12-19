@@ -19,8 +19,8 @@ module Operations
                 account_id: account.id,
                 quantity: item.quantity,
               }
-              track_money(attrs.merge(price: variant.price, kind: @params[:payment_type]))
-              track_weight(attrs.merge(weight: variant.weight, kind: 'sell'))
+              track_money(attrs.merge(price_uah: variant.price.to_d, kind: @params[:payment_type]))
+              track_weight(attrs.merge(weight_kilogram: variant.weight.convert_to('kilogram'), kind: 'sell'))
             end
             result.success = true
           end
