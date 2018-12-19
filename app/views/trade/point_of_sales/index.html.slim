@@ -1,0 +1,17 @@
+h1
+  | Point of Sales
+table.table
+  thead
+    tr
+      th Назва Точки
+      th Адреса
+      th[colspan="3"] Дії
+  tbody
+    - @point_of_sales.each do |pfs|
+      tr
+        td
+          = pfs.title
+        td
+          = pfs.place.address
+        td
+          = link_to 'Join', [:trade, pfs], class: 'btn btn-info btn-sm'
