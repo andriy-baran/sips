@@ -1,4 +1,5 @@
 class Trade::PointOfSalesController < ApplicationController
+  before_action :authenticate_account!
   before_action :set_point_of_sale, only: [:show]
 
   def index

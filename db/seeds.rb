@@ -5,12 +5,12 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-admin = Account.create(email: "admin@example.com", password: 'test123', full_name: "Андрій", phone: "0507564911")
+admin = Account.create!(email: "admin@example.com", password: 'test123', full_name: "Андрій", phone: "0507564911")
 admin.add_role(:manager)
 
-seller1 = Account.create(email: "seller1@example.com", password: 'test123', full_name: "Микола", phone: "0957804247")
-seller2 = Account.create(email: "seller2@example.com", password: 'test123', full_name: "Василь", phone: "0687804541")
-seller3 = Account.create(email: "seller3@example.com", password: 'test123', full_name: "Мирося", phone: "0507804984")
+seller1 = Account.create!(email: "seller1@example.com", password: 'test123', full_name: "Микола", phone: "0957804247")
+seller2 = Account.create!(email: "seller2@example.com", password: 'test123', full_name: "Василь", phone: "0687804541")
+seller3 = Account.create!(email: "seller3@example.com", password: 'test123', full_name: "Мирося", phone: "0507804984")
 
 sellers = [seller1, seller2, seller3]
 sellers.each{ |seller| seller.add_role(:seller) }

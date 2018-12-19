@@ -1,4 +1,5 @@
 class Manage::PointOfSalesController < ApplicationController
+  before_action :authenticate_account!
   before_action :set_point_of_sale, only: [:show, :edit, :update, :destroy]
 
   # GET /manage/point_of_sales

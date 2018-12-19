@@ -1,4 +1,6 @@
 class Trade::OrdersController < ApplicationController
+  before_action :authenticate_account!
+
   def create
     operation = Operations::Trade::Orders::Create.new(order_params)
     result = operation.call(OpenStruct.new(id: 1))

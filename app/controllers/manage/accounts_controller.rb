@@ -1,4 +1,5 @@
 class Manage::AccountsController < ApplicationController
+  before_action :authenticate_account!
   before_action :set_account, only: [:show, :edit, :update, :destroy]
 
   # GET /manage/accounts
@@ -30,7 +31,7 @@ class Manage::AccountsController < ApplicationController
   def set_account
     @account = Account.find(params[:id])
   end
-  
+
   def new_account_params
     params.require(:account).permit(:email, :full_name, :phone, :password, :password_confirmation)
   end
