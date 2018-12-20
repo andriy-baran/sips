@@ -5,4 +5,5 @@ class Account < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :trackable
   belongs_to :point_of_sale, optional: true
+  has_many :stocks
 end

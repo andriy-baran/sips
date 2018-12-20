@@ -10,6 +10,7 @@
           / = form.number_field :quantity, name: 'items[]item[quantity]', class: 'form-control', min: 1
         .col-2.text-right.pr-0.ml-3
           big Вартість
+    = link_to 'Завершити зміну', trade_point_of_sale_complete_change_path(@point_of_sale.id), method: :post, class: 'nav-link'
     = form_with(url: trade_orders_path, local: true, id: 'order') do |form|
       = form.hidden_field :pos_id, value: params[:id], name: 'order[pos_id]'
       = form.hidden_field :payment_type, value: 'cash', name: 'order[payment_type]'
