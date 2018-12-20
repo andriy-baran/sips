@@ -10,7 +10,9 @@ Rails.application.routes.draw do
 
   namespace :trade do
     resources :point_of_sales do
+      get :complete_change
       post :complete_change
+      post :checkout, on: :member, param: :point_of_sale_id
     end
     resources :orders, only: :create
   end
