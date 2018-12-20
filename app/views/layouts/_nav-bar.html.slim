@@ -12,8 +12,12 @@
         li.nav-item
           = link_to 'Люди', manage_accounts_path, class: 'nav-link'
       - elsif current_account&.has_role? :seller
-        li.nav-item
-          = link_to 'Завершити зміну', report_trade_point_of_sale_path(@point_of_sale), class: 'nav-link'
+        - if params[:action] == 'show'
+          li.nav-item
+            = link_to 'Завершити зміну', report_trade_point_of_sale_path(@point_of_sale), class: 'nav-link'
+        - if params[:action] == 'report'
+          li.nav-item
+            = link_to 'Торгувати', trade_point_of_sale_path(@point_of_sale), class: 'nav-link'
     ul.nav.navbar-nav.ml-auto
       - unless current_account
         li.nav-item

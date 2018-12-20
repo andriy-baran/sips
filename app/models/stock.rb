@@ -1,4 +1,5 @@
 class Stock < ApplicationRecord
- scope :sold_today, -> {where('created_at > ? and created_at < ? and kind = ?', Time.now.midnight, Time.now.at_end_of_day, 'sell') }
- has_many :products
+ scope :this_day, -> {where('created_at > ? and created_at < ?', Time.zone.now.beginning_of_day, Time.zone.now.end_of_day) }
+ scope :sold_today, -> {where('kind = ?', 'sell').merge(Stock.this_day) }
+ belongs_to :product
 end
