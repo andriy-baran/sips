@@ -1,0 +1,19 @@
+h1 Залишилося
+
+.list-group
+  - @products.each do |product|
+    .list-group-item
+      = form_with url: checkout_trade_point_of_sale_path(@point_of_sale)  do |f|
+        = f.hidden_field :product_id, value: product.id
+        = f.hidden_field :kind, value: 'checkout'
+        row.d-flex.align-items-center
+          .col-5
+            label.col-form-label[for=""]
+              = product.title
+          .col-5
+            .input-group
+              = f.text_field :weight_kilogram, class: "form-control here", 'aria-describedby' => 'basic-addon3'
+              .input-group-append
+                small.input-group-text#basic-addon3 кілограм
+          .col-2
+            = f.submit 'Зберегети', class: "btn btn-secondary"

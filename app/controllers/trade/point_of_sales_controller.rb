@@ -10,10 +10,9 @@ class Trade::PointOfSalesController < ApplicationController
     @products = Product.includes(:variant).all
   end
 
-  def complete_change
-    @stock = Stock.new
-    redirect_to root_path, notice: 'Зміну Завершено' if request.env['REQUEST_METHOD'] == 'POST'
-    @point_of_sale = PointOfSale.find(params[:point_of_sale_id])
+  def report
+    @point_of_sale = PointOfSale.find(params[:id])
+    @products = Product.all
   end
 
   def checkout
