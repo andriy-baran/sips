@@ -27,29 +27,39 @@ class Trade::PointOfSalesController < ApplicationController
   end
 
   def checkout
-    @product = Product.find_by(id: params[:product_id])
-    if @product
-      attrs = {
-        product_id: params[:product_id],
-        pos_id: params[:id],
-        account_id: current_account.id,
-        quantity: 1,
-        weight_kilogram: params[:weight_kilogram].sub(',', '.').to_f,
-        kind: 'checkout'
-      }
-      @stock = Stock.create(attrs)
-      render partial: :checkout, layout: false
+    if request.post?
+      @product = Product.find_by(id: params[:product_id])
+      if @product
+        attrs = {
+            product_id: params[:product_id],
+            pos_id: params[:id],
+            account_id: current_account.id,
+            quantity: 1,
+            weight_kilogram: params[:weight_kilogram].sub(',', '.').to_f,
+            kind: 'checkout'
+        }
+        @stock = Stock.create(attrs)
+        render partial: 'trade/point_of_sales/checkout', locals: { stock: @stock}, layout: false
+      end
+    elsif request.patch?
+      update_stock(params[:stock])
+      redirect_to report_trade_point_of_sale_path(@point_of_sale)
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_point_of_sale
-      @point_of_sale = PointOfSale.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def point_of_sale_params
-      params.fetch(:point_of_sale, {}).permit(:title, :city, :address)
-    end
+  def update_stock(stock_params)
+    @stock = Stock.find(stock_params[:stock_id])
+    @stock.update_column(:weight_kilogram, stock_params[:weight_kilogram])
+  end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_point_of_sale
+    @point_of_sale = PointOfSale.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def point_of_sale_params
+    params.fetch(:point_of_sale, {}).permit(:title, :city, :address)
+  end
 end

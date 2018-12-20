@@ -12,9 +12,15 @@
         = stock.weight_kilogram
         | &#032;
         | кілограми
+      span.form-update
+        = form_for stock, url: checkout_trade_point_of_sale_path(@point_of_sale), class: 'update-checkout', method: :patch do |f|
+          = f.hidden_field :stock_id, value: stock.id
+          = f.number_field :weight_kilogram
+          span
+            = f.submit 'Обновити'
     .col-sm-3.col-md-2.col-3
       .d-block.d-sm-none
-          = button_tag type: 'submit', class: "btn btn-secondary" do
-            i.fa.fa-pencil-square-o
+        = button_tag type: 'submit', class: "btn btn-secondary" do
+          i.fa.fa-pencil-square-o
       .d-none.d-sm-block
         button.btn.btn-secondary Змінити

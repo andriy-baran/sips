@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       member do
         get :report
         post :checkout
+        patch :checkout
       end
     end
     resources :orders, only: :create
