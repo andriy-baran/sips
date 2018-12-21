@@ -1,4 +1,5 @@
 .navbar.navbar-expand-md.navbar-light.bg-light.fixed-top
+  a.navbar-brand href="#" EatMyNuts
   button.navbar-toggler type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation"
     span.navbar-toggler-icon
   .collapse.navbar-collapse id="navbarToggleExternalContent"
@@ -11,17 +12,21 @@
         li.nav-item
           = link_to 'Люди', manage_accounts_path, class: 'nav-link'
       - elsif current_account&.has_role? :seller
+        - if params[:action] == 'show'
+          li.nav-item
+            = link_to 'Завершити зміну', trade_point_of_sale_checkouts_path(@point_of_sale), class: 'nav-link'
+        - if params[:action] == 'index'
+          li.nav-item
+            = link_to 'Торгувати', trade_point_of_sale_path(@point_of_sale), class: 'nav-link'
+    ul.nav.navbar-nav.ml-auto
+      - unless current_account
         li.nav-item
-          = link_to 'Точки продажу', trade_point_of_sales_path, class: 'nav-link'
+          = link_to 'Ввійти', new_account_session_url, class: 'nav-link'
+      - else
         li.nav-item
-          / = link_to 'Профайл', edit_account_registration_path(current_account), class: 'nav-link'
-    - unless current_account
-      = link_to 'Login', new_account_session_url, class: 'link_to_login'
-      = link_to 'Sign_up', new_account_registration_url, class: 'link_to_sign_up'
-    - else
-      = link_to 'Log out', destroy_account_session_url, method: :delete, class: 'link_to_log_out'
-    p.notice
-      = notice
-    p.alert
-      = alert
-    p = current_account.full_name if current_account
+          span.nav-link
+            | Ви ввійшли як
+            | &#32;
+            = current_account.full_name
+        li.nav-item
+          = link_to 'Вийти', destroy_account_session_url, method: :delete, class: 'nav-link'

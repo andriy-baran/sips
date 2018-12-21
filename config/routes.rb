@@ -9,8 +9,8 @@ Rails.application.routes.draw do
   end
 
   namespace :trade do
-    resources :point_of_sales do
-      post :complete_change
+    resources :point_of_sales, only: [:show] do
+      resources :checkouts, except: [:delete, :show]
     end
     resources :orders, only: :create
   end

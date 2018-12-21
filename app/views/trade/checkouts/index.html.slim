@@ -1,0 +1,9 @@
+h1 Залишилося
+
+.list-group#not-reported
+  - @products.each do |product|
+    = render 'report_form', product: product, point_of_sale: @point_of_sale
+hr
+.list-group#reported
+  - @reports.each do |stock|
+    = render 'checkout', stock: stock, point_of_sale: @point_of_sale
