@@ -88,6 +88,8 @@ GEM
       railties (>= 4.1.0, < 6.0)
       responders
       warden (~> 1.2.3)
+    devise-i18n (1.7.0)
+      devise (>= 4.5)
     erubi (1.7.1)
     execjs (2.7.0)
     ffi (1.9.25)
@@ -258,6 +260,7 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   devise
   font-awesome-rails
+  devise-i18n
   i18n
   jquery-rails (~> 4.3.1)
   letter_opener

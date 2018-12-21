@@ -1,7 +1,7 @@
 p#notice
   = notice
 h1
-  | Manage Point Of Sales
+  | Точки Продажу
 table.table
   thead
     tr
@@ -19,10 +19,10 @@ table.table
         td
           = point_of_sale.place.address
         td
-          = link_to 'Show', [:manage, point_of_sale], class: 'btn btn-info btn-sm'
+          = link_to 'Показати', [:manage, point_of_sale], class: 'btn btn-info btn-sm'
         td
-          = link_to 'Edit', edit_manage_point_of_sale_path(point_of_sale), class: 'btn btn-warning btn-sm'
+          = link_to 'Змінити', edit_manage_point_of_sale_path(point_of_sale), class: 'btn btn-warning btn-sm'
         td
-          = link_to 'Destroy', [:manage, point_of_sale], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm'
+          = link_to 'Видалити', [:manage, point_of_sale], method: :delete, data: { confirm: 'Точно хочете видалити?' }, class: 'btn btn-danger btn-sm'
 br
 = link_to 'Додати Точку Продажу', new_manage_point_of_sale_path, class: 'btn btn-success'

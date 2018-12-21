@@ -1,0 +1,58 @@
+= form_with(model: [:manage, @account], local: true) do |f|
+  - if @account.errors.any?
+    #error_explanation
+      h2
+        = pluralize(@account.errors.count, "error")
+        |  prohibited this @account from being saved:
+      ul
+        - @account.errors.full_messages.each do |message|
+          li
+            = message
+  .form-group.row
+    label.col-4.col-form-label[for=""]
+      = f.label :full_name, "Повне Ім'я"
+    .col-8
+      = f.text_field :full_name, required: "required", class: "form-control here"
+  .form-group.row
+    label.col-4.col-form-label[for=""]
+      = f.label :email, 'Емейл'
+    .col-8
+      = f.email_field :email, autofocus: true, autocomplete: "email", required: "required", class: "form-control here"
+  .form-group.row
+    label.col-4.col-form-label[for=""]
+      = f.label :phone, 'Телефон'
+    .col-8
+      = f.text_field :phone, required: "required", class: "form-control here"
+  .form-group.row
+    label.col-4.col-form-label[for=""]
+      = f.label :point_of_sale, 'Точка Продажу'
+    .col-8
+      = f.collection_select :pos_id, PointOfSale.all, :id, :title, { selected: @account.pos_id, include_blank: true }, class: 'custom-select'
+
+  .form-group.row
+    label.col-4.col-form-label[for=""]
+      = f.label :point_of_sale, 'Роль'
+    .col-8
+      = f.select :role, options_for_select([['Продавець', 'seller'], ['Менеджер', 'manager']], selected: @account.roles.any? ? @account.roles.first.name : nil), { include_blank: true }, name: 'role', class: 'custom-select'
+
+  - unless @account.persisted?
+    .form-group.row
+      label.col-4.col-form-label[for=""]
+        = f.label :password, 'Пароль'
+        - if @minimum_password_length
+          em
+            | (
+            = @minimum_password_length
+            |  characters minimum)
+      .col-8
+        = f.password_field :password, autocomplete: "new-password", required: "required", class: "form-control here"
+
+    .form-group.row
+      label.col-4.col-form-label[for=""]
+        = f.label :password_confirmation, 'Повтор Пароля'
+      .col-8
+        = f.password_field :password_confirmation, autocomplete: "new-password", required: "required", class: "form-control here"
+
+  .form-group.row
+    .offset-4.col-8
+      = f.submit (@account.persisted? ? 'Оновити' : "Створити"), class: "btn btn-primary"

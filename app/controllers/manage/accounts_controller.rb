@@ -12,8 +12,27 @@ class Manage::AccountsController < ApplicationController
   end
 
   def create
-    @account = Account.new(new_account_params)
+    @account = Account.new(account_params)
     if @account.save
+      @account.add_role(params[:role])
+      redirect_to manage_accounts_path
+    else
+      render :new
+    end
+  end
+
+  def show
+
+  end
+
+  def edit
+
+  end
+
+  def update
+    if @account.update(account_params)
+      @account.roles.destroy_all
+      @account.add_role(params[:role])
       redirect_to manage_accounts_path
     else
       render :new
@@ -32,12 +51,7 @@ class Manage::AccountsController < ApplicationController
     @account = Account.find(params[:id])
   end
 
-  def new_account_params
-    params.require(:account).permit(:email, :full_name, :phone, :password, :password_confirmation)
-  end
-
-  # Only allow a trusted parameter "white list" through.
   def account_params
-    params.fetch(:account, {}).permit(:title, :weight, :price)
-    end
+    params.require(:account).permit(:email, :full_name, :phone, :password, :password_confirmation, :pos_id)
+  end
 end
