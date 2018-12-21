@@ -10,11 +10,7 @@ Rails.application.routes.draw do
 
   namespace :trade do
     resources :point_of_sales, only: [:show] do
-      member do
-        get :report
-        post :checkout
-        patch :checkout
-      end
+      resources :checkouts, except: [:delete, :show]
     end
     resources :orders, only: :create
   end

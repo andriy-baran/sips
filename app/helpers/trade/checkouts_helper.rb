@@ -1,0 +1,2 @@
+module Trade::CheckoutsHelper
+end

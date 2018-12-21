@@ -1,0 +1,19 @@
+.list-group-item
+  = form_with url: (defined?(stock) ? trade_point_of_sale_checkout_path(point_of_sale, stock) : trade_point_of_sale_checkouts_path(point_of_sale)), method: (defined?(stock) ? :patch : :post), class: (defined?(stock) ? 'product-ckeckout-edit' : 'product-ckeckout') do |f|
+    = f.hidden_field :product_id, value: product.id
+    .row.d-flex.align-items-center
+      .col-4.col-md-5.col-lg-7
+        label.col-form-label[for=""]
+          = product.title
+      .col-5.col-md-5.col-lg-3
+        .input-group
+          = f.text_field :weight_kilogram, value: (defined?(stock) ? stock.weight_kilogram : nil), class: "form-control here", 'aria-describedby' => 'basic-addon3'
+          .input-group-append
+            small.d-block.d-sm-none.input-group-text#basic-addon3 кг
+            small.d-none.d-sm-block.input-group-text#basic-addon3 кілограми
+      .col-sm-3.col-md-2.col-3
+        .d-block.d-sm-none
+          = button_tag type: 'submit', class: "btn btn-primary" do
+            i.fa.fa-floppy-o
+        .d-none.d-sm-block
+          = f.submit 'Зберегти', class: "btn btn-primary"

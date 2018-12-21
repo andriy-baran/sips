@@ -14,8 +14,8 @@
       - elsif current_account&.has_role? :seller
         - if params[:action] == 'show'
           li.nav-item
-            = link_to 'Завершити зміну', report_trade_point_of_sale_path(@point_of_sale), class: 'nav-link'
-        - if params[:action] == 'report'
+            = link_to 'Завершити зміну', trade_point_of_sale_checkouts_path(@point_of_sale), class: 'nav-link'
+        - if params[:action] == 'index'
           li.nav-item
             = link_to 'Торгувати', trade_point_of_sale_path(@point_of_sale), class: 'nav-link'
     ul.nav.navbar-nav.ml-auto
