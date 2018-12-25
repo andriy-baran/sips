@@ -1,5 +1,10 @@
 .navbar.navbar-expand-md.navbar-light.bg-light.fixed-top
-  a.navbar-brand href="#" EatMyNuts
+  - if current_account&.has_role? :manager
+    = link_to 'EatMyNuts', manage_analytics_path, class: 'navbar-brand'
+  - elsif current_account&.has_role? :seller
+    = link_to 'EatMyNuts', trade_point_of_sale_path(@point_of_sale), class: 'navbar-brand'
+  - else
+    a.navbar-brand href='#' EatMyNuts
   button.navbar-toggler type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation"
     span.navbar-toggler-icon
   .collapse.navbar-collapse id="navbarToggleExternalContent"

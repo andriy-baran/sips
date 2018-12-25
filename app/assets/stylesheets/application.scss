@@ -1,6 +1,11 @@
 @import "bootstrap";
 @import "font-awesome";
+@import "manage/analytics";
 
 body {
   padding-top: 70px;
+}
+
+.alert-notice {
+  @extend .alert-info
 }

@@ -7,7 +7,7 @@
           = product.title
       .col-5.col-md-5.col-lg-3
         .input-group
-          = f.text_field :weight_kilogram, value: (defined?(stock) ? stock.weight_kilogram : nil), class: "form-control here", 'aria-describedby' => 'basic-addon3'
+          = f.text_field :weight_kilogram, value: (defined?(stock) ? stock.weight_kilogram.round(3) : nil), class: "form-control here", 'aria-describedby' => 'basic-addon3'
           .input-group-append
             small.d-block.d-sm-none.input-group-text#basic-addon3 кг
             small.d-none.d-sm-block.input-group-text#basic-addon3 кілограми

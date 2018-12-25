@@ -1,5 +1,8 @@
 class Stock < ApplicationRecord
- scope :this_day, -> {where('created_at > ? and created_at < ?', Time.zone.now.beginning_of_day, Time.zone.now.end_of_day) }
- scope :sold_today, -> {where('kind = ?', 'sell').merge(Stock.this_day) }
- belongs_to :product
+  belongs_to :product
+  belongs_to :pos, class_name: 'PointOfSale'
+
+  scope :on_day, ->(time = Time.zone.now) {where('stocks.created_at > ? and stocks.created_at < ?', time.beginning_of_day, time.end_of_day) }
+  scope :sold, -> { where(kind: 'sell') }
+  scope :checkouted, -> { where(kind: 'checkout') }
 end

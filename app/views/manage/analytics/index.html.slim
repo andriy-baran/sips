@@ -1,0 +1,38 @@
+/ = line_chart @sell_data, { id: 'pos-income', height: '500', scales: { yAxes: [stacked: true], xAxes: [stacked: true] } }
+.row.mb-4
+  .col-6
+    .card.text-white.bg-success.o-hidden.h-100
+      .card-body
+        .row.d-flex.align-items-center
+          .col-4
+            i.fa.fa-money.fa-4x
+          .col-8
+            h3.mb-0 = "#{@sold_today} UAH".to_money.format
+            | Зароблено сьогодні
+  .col-6
+    .card.text-white.bg-warning.o-hidden.h-100
+      .card-body
+        .row.d-flex.align-items-center
+          .col-4
+            i.fa.fa-shopping-cart.fa-4x
+          .col-8
+            h3.mb-0 = @number_today
+            | Порцій продано
+.card.mb-4
+  .card-header.text-center Прибуток по точках
+  .card-body.px-0 style="height: 200px;"
+    = bar_chart @sell_data, { id: 'pos-income', responsive: true, maintainAspectRatio: false, }
+
+.card.mb-4
+  .card-header.text-center Залишки на точках
+  .card-body
+    .list-group
+      - @stocks.each do |stock|
+        div class="list-group-item #{ stock.weight_kilogram < 2 ? 'list-group-item-danger' : stock.weight_kilogram < 3 ? 'list-group-item-warning' : 'list-group-item-success'}"
+          .row
+            .col-4
+              = stock.product.title
+            .col-4
+              = stock.pos.title
+            .col-4
+              = stock.weight_kilogram.round(3)

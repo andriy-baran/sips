@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resources :products
     resources :point_of_sales
     resources :accounts
+    resources :analytics, only: :index
   end
 
   namespace :trade do

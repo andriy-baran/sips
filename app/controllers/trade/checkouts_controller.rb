@@ -31,7 +31,7 @@ class Trade::CheckoutsController < ApplicationController
           kind: 'checkout'
       }
       @stock = Stock.create(attrs)
-      render partial: 'checkout', locals: { stock: @stock}
+      render partial: 'checkout', locals: { stock: @stock, point_of_sale: @point_of_sale }
     end
   end
 

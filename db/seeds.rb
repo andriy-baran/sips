@@ -8,13 +8,6 @@
 admin = Account.create!(email: "admin@example.com", password: 'test123', full_name: "Андрій", phone: "0507564911")
 admin.add_role(:manager)
 
-seller1 = Account.create!(email: "seller1@example.com", password: 'test123', full_name: "Микола", phone: "0957804247")
-seller2 = Account.create!(email: "seller2@example.com", password: 'test123', full_name: "Василь", phone: "0687804541")
-seller3 = Account.create!(email: "seller3@example.com", password: 'test123', full_name: "Мирося", phone: "0507804984")
-
-sellers = [seller1, seller2, seller3]
-sellers.each{ |seller| seller.add_role(:seller) }
-
 product1 = Product.create(title: 'фундук')
 product2 = Product.create(title: 'кукурудза')
 product3 = Product.create(title: 'кеш`ю')
@@ -42,16 +35,47 @@ pos4 = PointOfSale.create(title: 'ТП-1', place_id: place4.id)
 
 poses = [pos1, pos2, pos3, pos4]
 
-# 1000.times do
-#   product = products.sample
-#   attrs = {
-#     product_id: variant.product_id,
-#     pos_id: @params[:pos_id],
-#     account_id: account.id,
-#     quantity: item.quantity,
-#   }
-#   Cashbox.create(attrs.merge(price: variant.price, kind: @params[:payment_type]))
-#   Stock.create(attrs)
-# end
+seller1 = Account.create!(email: "seller1@example.com", password: 'test123', full_name: "Микола", phone: "0957804247", pos_id: pos1.id)
+seller2 = Account.create!(email: "seller2@example.com", password: 'test123', full_name: "Василь", phone: "0687804541", pos_id: pos2.id)
+seller3 = Account.create!(email: "seller3@example.com", password: 'test123', full_name: "Мирося", phone: "0507804984", pos_id: pos3.id)
+
+sellers = [seller1, seller2, seller3]
+sellers.each{ |seller| seller.add_role(:seller) }
+
+31.times do |d|
+  time =  Time.zone.now - d.days
+  Timecop.travel(time) do
+    (80..150).to_a.sample.times do |n|
+      product = products.sample
+      seller = sellers.sample
+      attrs = {
+        product_id: product.id,
+        pos_id: seller.pos_id,
+        account_id: seller.id,
+        quantity: rand(1..3),
+      }
+      Cashbox.create(attrs.merge(price_uah: product.variant.price.to_f, kind: %w(cash card).sample))
+      Stock.create(attrs.merge(weight_kilogram: product.variant.weight.convert_to('kilogram'), kind: 'sell'))
+    end
+    products.each do |product|
+      sellers.each do |seller|
+        res = Stock.sold.on_day.select('sum(weight_kilogram * quantity) as sold_weight').where(product_id: product.id).first
+        sold = res.sold_weight
+        total = sold + (sold * rand(0.0..0.4))
+        attrs = {
+          product_id: product.id,
+          pos_id: seller.pos_id,
+          account_id: seller.id,
+          quantity: rand(1..5),
+          weight_kilogram: total,
+          kind: 'checkout'
+        }
+        Stock.create(attrs)
+        Stock.create(attrs.merge(weight_kilogram: total + rand(1.1..5.5),kind: 'checkin')) unless (rand(1..4) / 4).zero?
+      end
+    end
+  end
+end
+
 
 

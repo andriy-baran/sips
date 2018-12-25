@@ -10,9 +10,16 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require Chart.bundle.min
 //= require jquery3
 //= require popper
 //= require bootstrap-sprockets
 //= require rails-ujs
 //= require turbolinks
 //= require_tree .
+
+$( document ).on('turbolinks:load', function() {
+  setTimeout(function() {
+    $(".alert").alert('close');
+  }, 3000);
+});
