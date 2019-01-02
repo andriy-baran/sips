@@ -22,7 +22,7 @@ class Manage::ProductsController < ApplicationController
 
   # POST /manage/products
   def create
-    @operation = Operations::Manage::Products::Create.new(product_params)
+    @operation = Manage::Products::Create.new(product_params)
     result = @operation.call
 
     if true
@@ -34,7 +34,7 @@ class Manage::ProductsController < ApplicationController
 
   # PATCH/PUT /manage/products/1
   def update
-    @operation = Operations::Manage::Products::Update.new(@product, product_params)
+    @operation = Manage::Products::Update.new(@product, product_params)
     result = @operation.call
 
     if true

@@ -9,6 +9,25 @@ class Manage::PointOfSalesController < ApplicationController
 
   # GET /manage/point_of_sales/1
   def show
+    @stock_data = { labels: [], datasets: [] }
+    dataset = { label: '', data: [], background_color: [] }
+    Product.all.each do |product|
+      @stock_data[:labels] << product.title
+      actual_stock = ProductStocksQuery.new(product_id: product.id, pos_id: @point_of_sale.id).all.first
+      dataset[:background_color] << "rgba(#{rand(255)}, #{rand(255)}, #{rand(255)}, 0.4)"
+      dataset[:data] << (actual_stock.nil? ? 0.0 : actual_stock.on_hand)
+    end
+    @stock_data[:datasets] << dataset
+
+    @sell_data = { labels: [], datasets: [] }
+    dataset = { label: '', data: [], background_color: "rgba(#{rand(255)}, #{rand(255)}, #{rand(255)}, 0.4)" }
+    30.times.to_a.reverse.each do |d|
+      time =  Time.zone.now - d.days
+      @sell_data[:labels] << I18n.l(time, format: '%d/%m')
+      pos_sellings = PosCashQuery.new(on_day: time, pos_id: @point_of_sale.id, last_days: 30).all
+      dataset[:data] << (pos_sellings.nil? ? 0.0 : pos_sellings.sum(&:sold_amount))
+    end
+    @sell_data[:datasets] << dataset
   end
 
   # GET /manage/point_of_sales/new
@@ -22,7 +41,7 @@ class Manage::PointOfSalesController < ApplicationController
 
   # POST /manage/point_of_sales
   def create
-    @operation = ::Operations::Manage::PointOfSales::Create.new(point_of_sale_params)
+    @operation = Manage::PointOfSales::Create.new(point_of_sale_params)
     result = @operation.call
 
     if true
@@ -34,7 +53,7 @@ class Manage::PointOfSalesController < ApplicationController
 
   # PATCH/PUT /manage/point_of_sales/1
   def update
-    @operation = ::Operations::Manage::PointOfSales::Update.new(@point_of_sale, point_of_sale_params)
+    @operation = Manage::PointOfSales::Update.new(@point_of_sale, point_of_sale_params)
     result = @operation.call
 
     if true

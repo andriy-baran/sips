@@ -1,5 +1,15 @@
-p#notice
-  = notice
-= link_to 'Edit', edit_manage_product_path(@product)
-|  | 
-= link_to 'Back', manage_products_path
+h1 Деталі Продукту
+.row.my-4
+  .col-4 Назва Продукту
+  .col-8
+    = @product.title
+.row.my-4
+  .col-4 Вага порції
+  .col-8
+    = @product.variant.weight
+.row.my-4
+  .col-4 Ціна порції
+  .col-8
+    = @product.variant.price.format(symbol: 'UAH')
+= link_to 'Змінити', edit_manage_product_path(@product), class: 'btn btn-warning mr-1'
+= link_to 'До Списку', manage_products_path, class: 'btn btn-secondary'

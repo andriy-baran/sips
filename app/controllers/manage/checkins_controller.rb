@@ -1,16 +1,19 @@
-class Trade::CheckoutsController < ApplicationController
+class Manage::CheckinsController < ApplicationController
   before_action :authenticate_account!
   before_action :set_point_of_sale
   before_action :set_pos_product_stock, on: :create
   before_action :set_stock, only: [:edit, :update]
 
   def index
-    @reports = Stock.includes(:product)
+    reports = Stock.includes(:product)
       .on_day
       .by_pos_id(@point_of_sale.id)
-      .checkouted
+      .where('stocks.kind = ?', 'checkin')
       .where('stocks.quantity = 1')
       .group('stocks.product_id, stocks.id')
+    @reports = reports.reject do |report|
+      Stock.checkouted.on_day.where('stocks.created_at > ?', report.created_at).first
+    end
     if @reports.any?
       @products = Product.where('id NOT IN (?)', @reports.map(&:product_id))
     else
@@ -20,19 +23,20 @@ class Trade::CheckoutsController < ApplicationController
 
   def create
     @product = Product.find_by(id: params[:product_id])
+    weight_kilogram = params[:weight_kilogram].sub(',', '.').to_f
+    total = @product_stock.on_hand + weight_kilogram
     if @product
-      weight_kilogram = params[:weight_kilogram].sub(',', '.').to_f
       attrs = {
           product_id: params[:product_id],
           pos_id: params[:point_of_sale_id],
           account_id: current_account.id,
           quantity: 1,
           weight_kilogram: weight_kilogram,
-          kind: 'checkout'
+          kind: 'checkin'
       }
       @stock = Stock.create(attrs)
-      @product_stock.update_column(:on_hand, weight_kilogram)
-      render partial: 'checkout', locals: { stock: @stock, point_of_sale: @point_of_sale }
+      @product_stock.update_column(:on_hand, total)
+      render partial: 'checkin', locals: { stock: @stock, point_of_sale: @point_of_sale }
     end
   end
 
@@ -41,8 +45,11 @@ class Trade::CheckoutsController < ApplicationController
   end
 
   def update
-    @stock.update_column(:weight_kilogram, params[:weight_kilogram])
-    render partial: 'checkout', locals: { stock: @stock, point_of_sale: @point_of_sale }
+    weight_kilogram = params[:weight_kilogram].sub(',', '.').to_f
+    total = @product_stock.on_hand + weight_kilogram
+    @stock.update_column(:weight_kilogram, weight_kilogram)
+    @product_stock.update_column(:on_hand, total)
+    render partial: 'checkin', locals: { stock: @stock, point_of_sale: @point_of_sale }
   end
 
   private

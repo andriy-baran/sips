@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  pos: 
+  product: 
+  on_hand: 1.5
+
+two:
+  pos: 
+  product: 
+  on_hand: 1.5

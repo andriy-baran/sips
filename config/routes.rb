@@ -4,7 +4,9 @@ Rails.application.routes.draw do
   root to: "home#index"
   namespace :manage do
     resources :products
-    resources :point_of_sales
+    resources :point_of_sales do
+      resources :checkins, except: [:delete, :show]
+    end
     resources :accounts
     resources :analytics, only: :index
   end

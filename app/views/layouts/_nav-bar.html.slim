@@ -20,6 +20,8 @@
         - if params[:action] == 'show'
           li.nav-item
             = link_to 'Завершити зміну', trade_point_of_sale_checkouts_path(@point_of_sale), class: 'nav-link'
+          li.nav-item
+            = link_to 'Поповнити Запаси', manage_point_of_sale_checkins_path(@point_of_sale), class: 'nav-link'
         - if params[:action] == 'index'
           li.nav-item
             = link_to 'Торгувати', trade_point_of_sale_path(@point_of_sale), class: 'nav-link'

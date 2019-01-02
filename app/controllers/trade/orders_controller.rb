@@ -2,7 +2,7 @@ class Trade::OrdersController < ApplicationController
   before_action :authenticate_account!
 
   def create
-    operation = Operations::Trade::Orders::Create.new(order_params)
+    operation = Trade::Orders::Create.new(order_params)
     result = operation.call(current_account)
     redirect_to request.referrer
   end

@@ -14,7 +14,6 @@ class Manage::AccountsController < ApplicationController
   def create
     @account = Account.new(account_params)
     if @account.save
-      @account.add_role(params[:role])
       redirect_to manage_accounts_path
     else
       render :new
@@ -31,9 +30,7 @@ class Manage::AccountsController < ApplicationController
 
   def update
     if @account.update(account_params)
-      @account.roles.destroy_all
-      @account.add_role(params[:role])
-      redirect_to manage_accounts_path
+      redirect_to manage_account_path(@account), notice: 'Акаунт оновлено'
     else
       render :new
     end
@@ -52,6 +49,6 @@ class Manage::AccountsController < ApplicationController
   end
 
   def account_params
-    params.require(:account).permit(:email, :full_name, :phone, :password, :password_confirmation, :pos_id)
+    params.require(:account).permit(:email, :full_name, :phone, :password, :password_confirmation, :pos_id, :role)
   end
 end

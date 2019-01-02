@@ -1,5 +1,24 @@
-p#notice
-  = notice
-= link_to 'Edit', edit_manage_account_path(@account)
-|  |
-= link_to 'Back', manage_accounts_path
+h1 Деталі Співробітника
+.row.my-4
+  .col-4 Повне Ім'я
+  .col-8
+    = @account.full_name
+.row.my-4
+  .col-4 Емейл
+  .col-8
+    = @account.email
+.row.my-4
+  .col-4 Телефон
+  .col-8
+    = @account.phone
+.row.my-4
+  .col-4 Точка Продажу
+  .col-8
+    = @account.point_of_sale&.title || 'Немає'
+.row.my-4
+  .col-4 Роль
+  .col-8
+    - maping = {'manager' => 'Менеджер', 'seller' => 'Продавець'}
+    = maping[@account.role]
+= link_to 'Змінити', edit_manage_account_path(@account), class: 'btn btn-warning mr-1'
+= link_to 'До Списку', manage_accounts_path, class: 'btn btn-secondary'

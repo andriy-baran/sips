@@ -10,18 +10,6 @@ class Trade::PointOfSalesController < ApplicationController
     @products = Product.includes(:variant).all
   end
 
-  def report
-
-  end
-
-  def checkout
-    if request.post?
-
-    elsif request.patch?
-
-    end
-  end
-
   private
 
   # Use callbacks to share common setup or constraints between actions.

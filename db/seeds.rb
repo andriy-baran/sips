@@ -5,8 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-admin = Account.create!(email: "admin@example.com", password: 'test123', full_name: "Андрій", phone: "0507564911")
-admin.add_role(:manager)
+admin = Account.create!(email: "admin@example.com", password: 'test123', full_name: "Андрій", phone: "0507564911", role: 'manager')
 
 product1 = Product.create(title: 'фундук')
 product2 = Product.create(title: 'кукурудза')
@@ -35,12 +34,11 @@ pos4 = PointOfSale.create(title: 'ТП-1', place_id: place4.id)
 
 poses = [pos1, pos2, pos3, pos4]
 
-seller1 = Account.create!(email: "seller1@example.com", password: 'test123', full_name: "Микола", phone: "0957804247", pos_id: pos1.id)
-seller2 = Account.create!(email: "seller2@example.com", password: 'test123', full_name: "Василь", phone: "0687804541", pos_id: pos2.id)
-seller3 = Account.create!(email: "seller3@example.com", password: 'test123', full_name: "Мирося", phone: "0507804984", pos_id: pos3.id)
+seller1 = Account.create!(email: "seller1@example.com", password: 'test123', full_name: "Микола", phone: "0957804247", pos_id: pos1.id, role: 'seller')
+seller2 = Account.create!(email: "seller2@example.com", password: 'test123', full_name: "Василь", phone: "0687804541", pos_id: pos2.id, role: 'seller')
+seller3 = Account.create!(email: "seller3@example.com", password: 'test123', full_name: "Мирося", phone: "0507804984", pos_id: pos3.id, role: 'seller')
 
 sellers = [seller1, seller2, seller3]
-sellers.each{ |seller| seller.add_role(:seller) }
 
 31.times do |d|
   time =  Time.zone.now - d.days
@@ -59,9 +57,9 @@ sellers.each{ |seller| seller.add_role(:seller) }
     end
     products.each do |product|
       sellers.each do |seller|
-        res = Stock.sold.on_day.select('sum(weight_kilogram * quantity) as sold_weight').where(product_id: product.id).first
+        res = Stock.sold.on_day.select('sum(weight_kilogram * quantity) as sold_weight').where(product_id: product.id).group('stocks.id').first
         sold = res.sold_weight
-        total = sold + (sold * rand(0.0..0.4))
+        total = sold + (sold * rand(0.0..0.4).round(2))
         attrs = {
           product_id: product.id,
           pos_id: seller.pos_id,
@@ -71,7 +69,7 @@ sellers.each{ |seller| seller.add_role(:seller) }
           kind: 'checkout'
         }
         Stock.create(attrs)
-        Stock.create(attrs.merge(weight_kilogram: total + rand(1.1..5.5),kind: 'checkin')) unless (rand(1..4) / 4).zero?
+        Stock.create(attrs.merge(weight_kilogram: total + rand(1.1..5.5).round(2),kind: 'checkin')) unless (rand(1..4) / 4).zero?
       end
     end
   end

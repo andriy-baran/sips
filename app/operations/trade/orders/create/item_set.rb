@@ -1,4 +1,4 @@
-module Operations::Trade::Orders
+module Trade::Orders
   class Create
     class ItemSet
       include Enumerable

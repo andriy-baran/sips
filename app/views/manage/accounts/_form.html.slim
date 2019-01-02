@@ -31,9 +31,9 @@
 
   .form-group.row
     label.col-4.col-form-label[for=""]
-      = f.label :point_of_sale, 'Роль'
+      = f.label :role, 'Роль'
     .col-8
-      = f.select :role, options_for_select([['Продавець', 'seller'], ['Менеджер', 'manager']], selected: @account.roles.any? ? @account.roles.first.name : nil), { include_blank: true }, name: 'role', class: 'custom-select'
+      = f.select :role, options_for_select([['Продавець', 'seller'], ['Менеджер', 'manager']], selected: @account.role), { include_blank: true }, class: 'custom-select'
 
   - unless @account.persisted?
     .form-group.row

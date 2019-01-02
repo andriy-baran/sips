@@ -1,5 +1,3 @@
-p#notice
-  = notice
 h1
   | Співробітники
 table.table
@@ -20,6 +18,6 @@ table.table
         td
           = link_to 'Змінити', edit_manage_account_path(account), class: 'btn btn-warning btn-sm'
         td
-          = link_to 'Видалити', [:manage, account], method: :delete, data: { confirm: 'Точно хочете видалити?' }, class: 'btn btn-danger btn-sm'
+          / = link_to 'Видалити', [:manage, account], method: :delete, data: { confirm: 'Точно хочете видалити?' }, class: 'btn btn-danger btn-sm'
 br
 = link_to 'Додати Співробітника', new_manage_account_path, class: 'btn btn-success'

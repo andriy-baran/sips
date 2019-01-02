@@ -1,9 +1,9 @@
 .list-group-item
   .row.d-flex.align-items-center
-    .col-4.col-md-5.col-lg-7
+    .col-sm-4.col-md-5.col-lg-7.col-5
       label.col-form-label[for=""]
         = stock.product.title
-    .col-5.col-md-5.col-lg-3
+    .col-md-5.col-lg-3.col-5
       span.d-block.d-sm-none
         = stock.weight_kilogram.round(3)
         | &#032;
@@ -12,9 +12,9 @@
         = stock.weight_kilogram.round(3)
         | &#032;
         | кілограми
-    .col-sm-3.col-md-2.col-3
+    .col-md-2.col-sm-3.col-2
       .d-block.d-sm-none
-        = link_to edit_trade_point_of_sale_checkout_path(point_of_sale, stock), class: "btn btn-warning edit-record", remote: true do
+        = link_to edit_manage_point_of_sale_checkin_path(point_of_sale, stock), class: "btn btn-warning edit-record", remote: true do
           i.fa.fa-pencil-square-o
       .d-none.d-sm-block
-        = link_to 'Змінити', edit_trade_point_of_sale_checkout_path(point_of_sale, stock), class: 'btn btn-warning edit-record', remote: true
+        = link_to 'Змінити', edit_manage_point_of_sale_checkin_path(point_of_sale, stock), class: 'btn btn-warning edit-record', remote: true

@@ -22,7 +22,7 @@
     label.col-4.col-form-label[for=""]
       | Ціна порції
     .col-8
-      = form.text_field :price, value: form.object.persisted? ? form.object.variant.price : nil, required: "required", class: "form-control here"
+      = form.text_field :price, value: form.object.persisted? ? form.object.variant.price.format(symbol: 'UAH') : nil, required: "required", class: "form-control here"
   .form-group.row
     .offset-4.col-8
       = form.submit 'Зберегти', class: "btn btn-primary"

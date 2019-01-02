@@ -1,6 +1,6 @@
 / = line_chart @sell_data, { id: 'pos-income', height: '500', scales: { yAxes: [stacked: true], xAxes: [stacked: true] } }
-.row.mb-4
-  .col-6
+.row
+  .col-sm-6.mb-4
     .card.text-white.bg-success.o-hidden.h-100
       .card-body
         .row.d-flex.align-items-center
@@ -9,30 +9,66 @@
           .col-8
             h3.mb-0 = "#{@sold_today} UAH".to_money.format
             | Зароблено сьогодні
-  .col-6
+  .col-sm-6.mb-4
     .card.text-white.bg-warning.o-hidden.h-100
       .card-body
         .row.d-flex.align-items-center
           .col-4
             i.fa.fa-shopping-cart.fa-4x
           .col-8
-            h3.mb-0 = @number_today
+            h3.mb-0 = @number_today || 0
             | Порцій продано
-.card.mb-4
-  .card-header.text-center Прибуток по точках
-  .card-body.px-0 style="height: 200px;"
-    = bar_chart @sell_data, { id: 'pos-income', responsive: true, maintainAspectRatio: false, }
+.list-group.mb-4.px-3
+  - @sell_data2.sort.reverse.each do |pos_performance|
+    .row.list-group-item.d-flex.align-items-center.bg-info.text-white
+      .col-md-6.col-sm-6.col-6.text-sm-right.pl-0
+        .h2.mb-0.d-none.d-md-block = pos_performance.total
+        .h4.mb-0.d-block.d-md-none = pos_performance.total
+        .d-block.d-md-none
+          small.d-block
+            = "Г: #{pos_performance.cash_total}"
+            | &nbsp;
+          small.d-block
+            = "К: #{pos_performance.card_total}"
+        .d-none.d-lg-none.d-md-block
+          small
+            = "Готівка: #{pos_performance.cash_total}"
+          | &nbsp;
+          small
+            = "Картка: #{pos_performance.card_total}"
+      .col-md-3.col-sm-6.border-right.border-left.d-none.d-lg-block
+        small.d-block
+          = "Готівка: #{pos_performance.cash_total}"
+        small.d-block
+          = "Картка: #{pos_performance.card_total}"
+      .col-lg-3.col-sm-6.col-6.pr-0
+        .d-block.d-lg-none
+          = pos_performance.pos_title
+          br
+          = pos_performance.seller_name
+        .d-none.d-md-none.d-lg-block
+          small.d-block
+            = pos_performance.pos_title
+          small.d-block
+            = pos_performance.seller_name
+.row.d-md-flex.align-items-md-stretch
+  .col-md-6.h-100
+    .card
+      .card-header.py-0.text-center Прибуток по точках
+      .card-body.px-0 style="height: 250px;"
+        = bar_chart @sell_data, { id: 'pos-income', responsive: true, maintainAspectRatio: false, }
+  .col-md-6.pt-4.pt-md-0
+    .card.h-100
+      .card-header.py-0.text-center Залишки на точках
+      .card-body
+        .list-group
+          - @stocks.each do |stock|
+            div class="list-group-item py-0 #{ stock.on_hand < 2 ? 'list-group-item-danger' : stock.on_hand < 3 ? 'list-group-item-warning' : 'list-group-item-success'}"
+              .row
+                .col-5
+                  = stock.product.title
+                .col-4.row
+                  = link_to stock.pos.title, [:manage, stock.pos]
+                .col-3.row
+                  = stock.on_hand.round(3)
 
-.card.mb-4
-  .card-header.text-center Залишки на точках
-  .card-body
-    .list-group
-      - @stocks.each do |stock|
-        div class="list-group-item #{ stock.weight_kilogram < 2 ? 'list-group-item-danger' : stock.weight_kilogram < 3 ? 'list-group-item-warning' : 'list-group-item-success'}"
-          .row
-            .col-4
-              = stock.product.title
-            .col-4
-              = stock.pos.title
-            .col-4
-              = stock.weight_kilogram.round(3)

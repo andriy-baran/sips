@@ -23,6 +23,6 @@ table.table
         td
           = link_to 'Змінити', edit_manage_point_of_sale_path(point_of_sale), class: 'btn btn-warning btn-sm'
         td
-          = link_to 'Видалити', [:manage, point_of_sale], method: :delete, data: { confirm: 'Точно хочете видалити?' }, class: 'btn btn-danger btn-sm'
+          / = link_to 'Видалити', [:manage, point_of_sale], method: :delete, data: { confirm: 'Точно хочете видалити?' }, class: 'btn btn-danger btn-sm'
 br
 = link_to 'Додати Точку Продажу', new_manage_point_of_sale_path, class: 'btn btn-success'
