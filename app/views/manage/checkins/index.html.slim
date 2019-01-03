@@ -2,8 +2,8 @@ h1 Поповнити Запаси
 
 .list-group#not-reported
   - @products.each do |product|
-    = render 'report_form', product: product, point_of_sale: @point_of_sale
+    = render 'report_form', product: product, point_of_sale: @point_of_sale, product_stock: @point_of_sale.product_stock(product)
 hr
 .list-group#reported
   - @reports.each do |stock|
-    = render 'checkin', stock: stock, point_of_sale: @point_of_sale
+    = render 'checkin', stock: stock, point_of_sale: @point_of_sale, product_stock: @point_of_sale.product_stock(stock.product)

@@ -5,16 +5,16 @@
         = stock.product.title
     .col-md-5.col-lg-3.col-5
       span.d-block.d-sm-none
-        = stock.weight_kilogram.round(3)
+        = product_stock.on_hand.round(3)
         | &#032;
         | кг
       span.d-none.d-sm-block
-        = stock.weight_kilogram.round(3)
+        = product_stock.on_hand.round(3)
         | &#032;
         | кілограми
     .col-md-2.col-sm-3.col-2
       .d-block.d-sm-none
-        = link_to edit_manage_point_of_sale_checkin_path(point_of_sale, stock), class: "btn btn-warning edit-record", remote: true do
+        = link_to edit_manage_point_of_sale_checkin_path(point_of_sale, stock, pos_product_stock_id: product_stock.id), class: "btn btn-warning edit-record", remote: true do
           i.fa.fa-pencil-square-o
       .d-none.d-sm-block
-        = link_to 'Змінити', edit_manage_point_of_sale_checkin_path(point_of_sale, stock), class: 'btn btn-warning edit-record', remote: true
+        = link_to 'Змінити', edit_manage_point_of_sale_checkin_path(point_of_sale, stock, pos_product_stock_id: product_stock.id), class: 'btn btn-warning edit-record', remote: true
