@@ -4,7 +4,7 @@ class Manage::ProductsController < ApplicationController
 
   # GET /manage/products
   def index
-    @products = Product.all
+    @products = Product.all.preload(:variant)
   end
 
   # GET /manage/products/1
@@ -14,32 +14,37 @@ class Manage::ProductsController < ApplicationController
   # GET /manage/products/new
   def new
     @product = Product.new
+    @variant = @product.build_variant
+    @errors = {}
   end
 
   # GET /manage/products/1/edit
   def edit
+    @errors = {}
   end
 
   # POST /manage/products
   def create
-    @operation = Manage::Products::Create.new(product_params)
-    result = @operation.call
+    result = Manage::Products::CreateHandler.handle(input: product_params)
 
-    if true
-      redirect_to [:manage, result.product], notice: 'Product was successfully created.'
+    if result.valid?
+      redirect_to [:manage, result.new_product], notice: 'Product was successfully created.'
     else
-      render :new
+      @product = result.new_product
+      @variant = result.new_variant
+      @errors = result.errors
+      render :new, status: result.status
     end
   end
 
   # PATCH/PUT /manage/products/1
   def update
-    @operation = Manage::Products::Update.new(@product, product_params)
-    result = @operation.call
+    result = Manage::Products::UpdateHandler.handle(input: product_params)
 
-    if true
+    if result.valid?
       redirect_to [:manage, result.product], notice: 'Product was successfully updated.'
     else
+      @errors = result.errors
       render :edit
     end
   end
@@ -58,6 +63,6 @@ class Manage::ProductsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def product_params
-      params.fetch(:product, {}).permit(:title, :weight, :price)
+      params.fetch(:product, {}).permit(:id, :title, :weight, :price)
     end
 end

@@ -8,14 +8,14 @@ test:
   <<: *default
   host:     localhost
   database: sips_test
-  username: developer
+  username: horizon
   password:
 
 development:
   <<: *default
   host:     localhost
   database: sips_prod
-  username: developer
+  username: horizon
   password:
 
 staging:
