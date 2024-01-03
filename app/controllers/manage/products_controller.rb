@@ -25,21 +25,20 @@ class Manage::ProductsController < ApplicationController
 
   # POST /manage/products
   def create
-    result = Manage::Products::CreateHandler.handle(input: product_params)
+    @presenter = Manage::Products::CreateHandler.handle(input: product_params)
 
     if result.valid?
-      redirect_to [:manage, result.new_product], notice: 'Product was successfully created.'
+      redirect_to [:manage, @presenter.new_product], notice: 'Product was successfully created.'
     else
-      @product = result.new_product
-      @variant = result.new_variant
-      @errors = result.errors
-      render :new, status: result.status
+      render :new, status: @presenter.status
     end
   end
 
   # PATCH/PUT /manage/products/1
   def update
-    result = Manage::Products::UpdateHandler.handle(input: product_params)
+    result = Manage::Products::UpdateHandler.handle(input: product_params) do |i|
+      i.query.product = @product
+    end
 
     if result.valid?
       redirect_to [:manage, result.product], notice: 'Product was successfully updated.'

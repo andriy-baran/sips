@@ -33,6 +33,7 @@ class Manage::PointOfSalesController < ApplicationController
   # GET /manage/point_of_sales/new
   def new
     @point_of_sale = PointOfSale.new
+    @point_of_sale.build_place
   end
 
   # GET /manage/point_of_sales/1/edit
@@ -41,12 +42,13 @@ class Manage::PointOfSalesController < ApplicationController
 
   # POST /manage/point_of_sales
   def create
-    @operation = Manage::PointOfSales::Create.new(point_of_sale_params)
-    result = @operation.call
+    result = Manage::PointOfSales::CreateHandler.handle(input: point_of_sale_params)
 
-    if true
-      redirect_to [:manage, result.pos], notice: 'Point of sale was successfully created.'
+    if result.success?
+      redirect_to [:manage, result.new_pos], notice: 'Point of sale was successfully created.'
     else
+      @point_of_sale = result.new_pos
+      @point_of_sale.errors.merge!(result.errors)
       render :new
     end
   end
@@ -77,6 +79,6 @@ class Manage::PointOfSalesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def point_of_sale_params
-      params.fetch(:point_of_sale, {}).permit(:title, :city, :address)
+      params.fetch(:point_of_sale, {}).to_unsafe_h#.permit(:title, place_attributes: [:city, :address])
     end
 end

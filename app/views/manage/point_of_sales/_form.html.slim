@@ -12,17 +12,18 @@
     label.col-4.col-form-label[for=""]
       | Назва Точки
     .col-8
-      = form.text_field :title, required: "required", class: "form-control here"
-  .form-group.row
-    label.col-4.col-form-label[for=""]
-      | Місто
-    .col-8
-      = form.text_field :city, value: form.object.persisted? ? form.object.place.city : nil, required: "required", class: "form-control here"
-  .form-group.row
-    label.col-4.col-form-label[for=""]
-      | Адреса
-    .col-8
-      = form.text_field :address, value: form.object.persisted? ? form.object.place.address : nil, required: "required", class: "form-control here"
+      = form.text_field :title, class: "form-control here"
+  = form.fields_for :place do |f|
+    .form-group.row
+      label.col-4.col-form-label[for=""]
+        | Місто
+      .col-8
+        = f.text_field :city, value: form.object.persisted? ? form.object.place.city : nil, class: "form-control here"
+    .form-group.row
+      label.col-4.col-form-label[for=""]
+        | Адреса
+      .col-8
+        = f.text_field :address, value: form.object.persisted? ? form.object.place.address : nil, class: "form-control here"
   .form-group.row
     .offset-4.col-8
       = form.submit 'Зберегти', class: "btn btn-primary"

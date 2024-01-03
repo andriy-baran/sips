@@ -3,6 +3,8 @@ class PointOfSale < ApplicationRecord
   has_many :accounts
   has_many :product_stocks, class_name: 'PosProductStock', foreign_key: :pos_id
 
+  accepts_nested_attributes_for :place
+
   def product_stock(product)
     product_stocks.by_product_id(product.id).first_or_create
   end

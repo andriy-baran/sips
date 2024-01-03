@@ -1,22 +1,15 @@
 class Manage::Products::UpdateHandler < ApplicationHandler
   define do
-    params Manage::Products::CreateParams do
-      attribute :id, integer
-
-      validates :id, presence: true
-    end
+    params Manage::Products::CreateHandler::Params
 
     query do
-      memoize def product
-        Product.find_by(id: id)
-      end
+      attr_accessor :product
 
       def variant
         product&.variant
       end
 
       validate do
-        errors.add(:not_found, 'No product') if product.nil?
         errors.add(:not_found, 'No variant') if variant.nil?
       end
     end
