@@ -3,7 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.0.2'
 
-gem 'rails', '~> 6.0.5'
+gem 'rails', '~> 7.0.5'
 gem 'pg'
 gem 'puma'
 gem 'sass-rails'
@@ -26,11 +26,8 @@ gem 'timecop'
 gem 'chartjs-ror'
 gem 'values'
 gem 'toritori'
-# gem 'dry-types', '~> 1.7'
-# gem 'dry-struct', '~> 1.6'
-source 'http://127.0.0.1:9292/' do
-  gem 'steel_wheel'
-end
+gem 'steel_wheel', path: '/Users/horizon/steel_wheel'#~> 0.6'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
