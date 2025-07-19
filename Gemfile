@@ -1,46 +1,46 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.0.2'
+ruby '3.4.1'
 
-gem 'rails', '~> 7.0.5'
-gem 'pg'
-gem 'puma'
-gem 'sass-rails'
-gem 'uglifier'
-gem 'coffee-rails'
-gem 'turbolinks'
 gem 'bootsnap', '>= 1.1.0', require: false
-gem 'devise'
 gem 'bootstrap'
-gem 'jquery-rails'
-gem "letter_opener", :group => :development
-gem 'money-rails'
-gem 'unitwise'
-gem 'slim'
-gem 'rolify'
-gem 'font-awesome-rails'
-gem 'devise-i18n'
-gem 'rails-i18n'
-gem 'timecop'
 gem 'chartjs-ror'
-gem 'values'
+gem 'coffee-rails'
+gem 'devise'
+gem 'devise-i18n'
+gem 'font-awesome-rails'
+gem 'jquery-rails'
+gem 'letter_opener', group: :development
+gem 'money-rails'
+# gem 'pg'  # Commented out for SQLite development
+gem 'sqlite3', '~> 2.7'
+gem 'puma'
+gem 'rails', '~> 8.0.2'
+gem 'rails-i18n'
+gem 'rolify'
+gem 'sass-rails'
+gem 'slim'
+gem 'steel_wheel', path: '/Users/horizon/steel_wheel' # ~> 0.6'
+gem 'timecop'
 gem 'toritori'
-gem 'steel_wheel', path: '/Users/horizon/steel_wheel'#~> 0.6'
+gem 'turbolinks'
+gem 'uglifier'
+gem 'unitwise'
+gem 'values'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'pry-rails'
 end
 gem 'i18n'
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'web-console'
   gem 'listen'
+  gem 'web-console'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'routes_graph', path: '/Users/horizon/routes_graph'
 end
 
 group :test do
@@ -52,4 +52,4 @@ group :test do
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]

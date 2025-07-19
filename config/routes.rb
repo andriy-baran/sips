@@ -1,11 +1,14 @@
+require 'json'
+
 Rails.application.routes.draw do
+  mount RoutesGraph::Engine, at: '/r'
   devise_for :accounts, :controllers => { registrations: 'registrations' }
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root to: "home#index"
   namespace :manage do
     resources :products
     resources :point_of_sales do
-      resources :checkins, except: [:delete, :show]
+      resources :checkins, except: [:destroy, :show]
     end
     resources :accounts
     resources :analytics, only: :index
@@ -13,7 +16,7 @@ Rails.application.routes.draw do
 
   namespace :trade do
     resources :point_of_sales, only: [:show] do
-      resources :checkouts, except: [:delete, :show]
+      resources :checkouts, except: [:destroy, :show]
     end
     resources :orders, only: :create
   end
