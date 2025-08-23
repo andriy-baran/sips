@@ -1,6 +1,5 @@
 = render @form
 = form_with(model: [:manage, @product], local: true) do |form|
-  = form.hidden_field :id, value: product.id
   - if @errors.any?
     #error_explanation
       h2

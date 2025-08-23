@@ -1,5 +1,7 @@
 class Manage::Products::UpdateHandler < ApplicationHandler
   form do
+    self.scope = :product
+
     element :title do
       input(type: :text, class: 'col-8 form-control')
       output(type: :string, presence: true)
@@ -40,25 +42,22 @@ class Manage::Products::UpdateHandler < ApplicationHandler
     end
   end
 
-  params do |handler_class|
-    integer :id
-    has :product, handler_class.form_definition.params_definition
+  params do
+    integer :id, presence: true
   end
 
   finder :product, -> { Product.find_by(id: params.id) }, validate_existence: true
-  finder :variants, -> { product.variants }, validate_existence: { base: true, message: 'No variants' }
 
-  def call(response)
-    ::ApplicationRecord.transaction do
-      product.update!(title: title)
-      variant.update!(weight: weight, price: price)
-    rescue => e
-      response.errors.add(:unprocessable_entity, e.message)
-      raise ActiveRecord::Rollback
-    end
+  def call
+    product.update(form_params.to_h)
   end
 
-  memoize def form
-    form_class.new(model: [:manage, product])
+  def form_attributes
+    { model: [:manage, product], id: helpers.dom_id(product) }
   end
+
+  # def on_preconditions_failure
+  #   product.assign_attributes(params.product.to_h)
+  #   super
+  # end
 end

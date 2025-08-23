@@ -14,16 +14,18 @@ class Manage::ProductsController < ApplicationController
   end
 
   # GET /manage/products/new
-  ask :new, handler: :create do |form|
-    @form = form
-    @errors = ActiveModel::Errors.new(form)
+  ask :new, handler: :create do |handler|
+    @product = handler.product
+    @product.variants.build
+    @form = handler.form
+    @errors = handler.errors
   end
 
   # GET /manage/products/1/edit
-  ask :edit, handler: :update do |form|
-    @form = form
-    @product = form.model
-    @errors = ActiveModel::Errors.new(form)
+  ask :edit, handler: :update do |handler|
+    @form = handler.form
+    @product = handler.product
+    @errors = handler.errors
   end
 
   # POST /manage/products
@@ -34,6 +36,8 @@ class Manage::ProductsController < ApplicationController
 
     handler.failure do
       @errors = handler.errors
+      @product = handler.product
+      @form = handler.form
       render :new
     end
   end
@@ -46,6 +50,8 @@ class Manage::ProductsController < ApplicationController
 
     handler.failure do
       @errors = handler.errors
+      @form = handler.form
+      @product = handler.product
       render :edit
     end
   end

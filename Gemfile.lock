@@ -1,4 +1,12 @@
 PATH
+  remote: /Users/horizon/easy_form
+  specs:
+    easy_form (0.1.0)
+      easy_params (~> 0.6.1)
+      phlex (>= 2)
+      railties (>= 6.0.0)
+
+PATH
   remote: /Users/horizon/routes_graph
   specs:
     routes_graph (0.1.0)
@@ -11,9 +19,8 @@ PATH
   remote: /Users/horizon/steel_wheel
   specs:
     steel_wheel (0.6.1)
-      easy_params (~> 0.5)
+      easy_params (~> 0.6)
       memery (~> 1)
-      nina (~> 0.2)
       railties (>= 3.2, < 8.1)
 
 GEM
@@ -144,7 +151,7 @@ GEM
       devise (>= 4.9.0)
       rails-i18n
     drb (2.2.3)
-    easy_params (0.5.0)
+    easy_params (0.6.1)
       activemodel (>= 3.2)
     erb (5.0.2)
     erubi (1.13.1)
@@ -220,8 +227,6 @@ GEM
       timeout
     net-smtp (0.5.1)
       net-protocol
-    nina (0.2.1)
-      toritori (= 0.2.1)
     nio4r (2.7.4)
     nokogiri (1.18.8-aarch64-linux-gnu)
       racc (~> 1.4)
@@ -244,6 +249,8 @@ GEM
       ast (~> 2.4.1)
       racc
     parslet (2.0.0)
+    phlex (2.3.1)
+      zeitwerk (~> 2.7)
     popper_js (2.11.8)
     pp (0.6.2)
       prettyprint
@@ -419,6 +426,7 @@ DEPENDENCIES
   coffee-rails
   devise
   devise-i18n
+  easy_form!
   font-awesome-rails
   i18n
   jquery-rails
@@ -449,4 +457,4 @@ RUBY VERSION
    ruby 3.4.1p0
 
 BUNDLED WITH
-   2.6.9
+   2.7.1

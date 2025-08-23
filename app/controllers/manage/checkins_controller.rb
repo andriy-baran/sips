@@ -24,6 +24,7 @@ class Manage::CheckinsController < ApplicationController
   def create
     result = Trade::Checkouts::CreateHandler.handle(input: params.to_unsafe_h) do |i|
       i.query.current_account = current_account
+      i.query.point_of_sale = @point_of_sale
       i.query.product_stock = @product_stock
     end
     if result.success?
