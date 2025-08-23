@@ -1,67 +1,58 @@
 class Manage::ProductsController < ApplicationController
   before_action :authenticate_account!
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
+  # before_action :set_product, only: %i[show edit update destroy]
 
   # GET /manage/products
   def index
-    @products = Product.all.preload(:variant)
+    @products = Product.includes(:variants)
   end
 
   # GET /manage/products/1
   def show
+    @presenter = Manage::Products::UpdateHandler.new(params.to_unsafe_h.symbolize_keys)
+    @product = @presenter.product
   end
 
   # GET /manage/products/new
-  def new
-    @product = Product.new
-    @variant = @product.build_variant
-    @errors = {}
+  ask :new, handler: :create do |form|
+    @form = form
+    @errors = ActiveModel::Errors.new(form)
   end
 
   # GET /manage/products/1/edit
-  def edit
-    @errors = {}
+  ask :edit, handler: :update do |form|
+    @form = form
+    @product = form.model
+    @errors = ActiveModel::Errors.new(form)
   end
 
   # POST /manage/products
-  def create
-    @presenter = Manage::Products::CreateHandler.handle(input: product_params)
+  handle :create do |handler|
+    handler.success do
+      redirect_to [:manage, handler.product], notice: 'Product was successfully created.'
+    end
 
-    if result.valid?
-      redirect_to [:manage, @presenter.new_product], notice: 'Product was successfully created.'
-    else
-      render :new, status: @presenter.status
+    handler.failure do
+      @errors = handler.errors
+      render :new
     end
   end
 
   # PATCH/PUT /manage/products/1
-  def update
-    result = Manage::Products::UpdateHandler.handle(input: product_params) do |i|
-      i.query.product = @product
+  handle :update do |handler|
+    handler.success do
+      redirect_to [:manage, handler.product], notice: 'Product was successfully updated.'
     end
 
-    if result.valid?
-      redirect_to [:manage, result.product], notice: 'Product was successfully updated.'
-    else
-      @errors = result.errors
+    handler.failure do
+      @errors = handler.errors
       render :edit
     end
   end
 
   # DELETE /manage/products/1
   def destroy
-    @product.destroy
+    Manage::Products::UpdateHandler.new(params).product.destroy
     redirect_to manage_products_url, notice: 'Product was successfully destroyed.'
   end
-
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_product
-      @product = Product.find(params[:id])
-    end
-
-    # Only allow a trusted parameter "white list" through.
-    def product_params
-      params.fetch(:product, {}).permit(:id, :title, :weight, :price)
-    end
 end

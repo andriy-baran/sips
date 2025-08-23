@@ -34,3 +34,5 @@
 Gemfile
 
 .vscode/
+
+.DS_Store

@@ -1,3 +1,4 @@
+= render @form
 = form_with(model: [:manage, @product], local: true) do |form|
   = form.hidden_field :id, value: product.id
   - if @errors.any?
@@ -14,16 +15,17 @@
       | Назва Продукту
     .col-8
       = form.text_field :title, required: "required", class: "form-control here"
-  .form-group.row
-    label.col-4.col-form-label[for=""]
-      | Вага порції
-    .col-8
-      = form.text_field :weight, value: form.object.variant.weight, required: "required", class: "form-control here"
-  .form-group.row
-    label.col-4.col-form-label[for=""]
-      | Ціна порції
-    .col-8
-      = form.text_field :price, value: form.object.variant.price.format(symbol: 'UAH'), required: "required", class: "form-control here"
+  = form.fields_for :variants do |variant_form|
+    .form-group.row
+      label.col-4.col-form-label[for=""]
+        | Вага порції
+      .col-8
+        = variant_form.text_field :weight, value: variant_form.object.weight, required: "required", class: "form-control here"
+    .form-group.row
+      label.col-4.col-form-label[for=""]
+        | Ціна порції
+      .col-8
+        = variant_form.text_field :price, value: variant_form.object.price.format(symbol: 'UAH'), required: "required", class: "form-control here"
   .form-group.row
     .offset-4.col-8
       = form.submit 'Зберегти', class: "btn btn-primary"

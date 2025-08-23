@@ -1,11 +1,11 @@
 = form_with(model: [:manage, point_of_sale], local: true) do |form|
-  - if point_of_sale.errors.any?
+  - if @errors.any?
     #error_explanation
       h2
-        = pluralize(point_of_sale.errors.count, "error")
+        = pluralize(@errors.count, "error")
         |  prohibited this point_of_sale from being saved:
       ul
-        - point_of_sale.errors.full_messages.each do |message|
+        - @errors.full_messages.each do |message|
           li
             = message
   .form-group.row

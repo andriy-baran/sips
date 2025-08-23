@@ -1,21 +1,14 @@
 class Manage::PointOfSales::CreateHandler < ApplicationHandler
-  define do
-    params Params
+  params Manage::PointOfSales::UpdateHandler.params_definition
 
-    query do
-      memoize def new_pos
-        ::PointOfSale.new(params.to_h)
-      end
+  verify memoize def point_of_sale
+    ::PointOfSale.new(params.point_of_sale.to_h)
+  end
+
+  def call
+    pos.save
+    ::Product.all.each do |product|
+      ::PosProductStock.create(pos_id: pos.id, product_id: product.id, on_hand: 0.0)
     end
-
-    command Command
-  end
-
-  def on_success(flow)
-    flow.call(flow)
-  end
-
-  def on_failure(flow)
-
   end
 end

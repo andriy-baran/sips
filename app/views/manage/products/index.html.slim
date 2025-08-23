@@ -15,9 +15,9 @@ table.table
         td
           = product.title
         td
-          = product.variant.weight
+          = product.variants.map(&:weight).join(', ')
         td
-          = product.variant.price.format(symbol: 'UAH')
+          = product.variants.map(&:price).join(', ')
         td
           = link_to 'Показати', [:manage, product], class: 'btn btn-info btn-sm'
         td

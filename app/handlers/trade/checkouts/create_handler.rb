@@ -1,16 +1,15 @@
 class Trade::Checkouts::CreateHandler < ApplicationHandler
   define do
     params do
-      attribute :product_id, integer
-      attribute :point_of_sale_id, integer
-      attribute :weight_kilogram, float
+      integer :product_id
+      integer :point_of_sale_id
+      float :weight_kilogram, normalize: ->(v) { v.sub(',', '.') }
     end
 
     query do
-      attr_accessor :current_account, :stock, :product_stock
+      depends_on :current_account, :product_stock, :point_of_sale
 
-      find_one :product, map: { id: :product_id }
-      find_one :point_of_sale, map: { id: :point_of_sale_id }
+      find_one :product, map: { id: :product_id }, required: { message: 'Product is missing' }
 
       def new_stock_attrs
         {
@@ -21,11 +20,6 @@ class Trade::Checkouts::CreateHandler < ApplicationHandler
           weight_kilogram: weight_kilogram,
           kind: 'checkout'
         }
-      end
-
-      validate do
-        errors.add(:not_found, 'Product is missing') if product.nil?
-        errors.add(:not_found, 'PoS is missing') if point_of_sale.nil?
       end
     end
 
