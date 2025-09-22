@@ -4,6 +4,4 @@ class ApplicationHandler < SteelWheel::Handler
   def form_class
     self.class.form_definition
   end
-
-  def on_validation_success; end
 end

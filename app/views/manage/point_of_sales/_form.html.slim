@@ -1,4 +1,6 @@
-= form_with(model: [:manage, point_of_sale], local: true) do |form|
+= render @form
+
+- form_with(model: [:manage, point_of_sale], local: true) do |form|
   - if @errors.any?
     #error_explanation
       h2

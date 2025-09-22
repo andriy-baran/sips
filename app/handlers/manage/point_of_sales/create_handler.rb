@@ -1,14 +1,14 @@
 class Manage::PointOfSales::CreateHandler < ApplicationHandler
-  params Manage::PointOfSales::UpdateHandler.params_definition
+  form Manage::PointOfSales::UpdateHandler.form_definition
 
   verify memoize def point_of_sale
-    ::PointOfSale.new(params.point_of_sale.to_h)
+    ::PointOfSale.new(form_params.to_h)
   end
 
   def call
-    pos.save
-    ::Product.all.each do |product|
-      ::PosProductStock.create(pos_id: pos.id, product_id: product.id, on_hand: 0.0)
+    point_of_sale.save
+    Product.all.each do |product|
+      PosProductStock.create(pos_id: point_of_sale.id, product_id: product.id, on_hand: 0.0)
     end
   end
 end

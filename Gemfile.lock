@@ -2,7 +2,7 @@ PATH
   remote: /Users/horizon/easy_form
   specs:
     easy_form (0.1.0)
-      easy_params (~> 0.6.1)
+      easy_params (~> 0.6.3)
       phlex (>= 2)
       railties (>= 6.0.0)
 
@@ -19,7 +19,7 @@ PATH
   remote: /Users/horizon/steel_wheel
   specs:
     steel_wheel (0.6.1)
-      easy_params (~> 0.6)
+      easy_params (~> 0.6.3)
       memery (~> 1)
       railties (>= 3.2, < 8.1)
 
@@ -151,7 +151,7 @@ GEM
       devise (>= 4.9.0)
       rails-i18n
     drb (2.2.3)
-    easy_params (0.6.1)
+    easy_params (0.6.3)
       activemodel (>= 3.2)
     erb (5.0.2)
     erubi (1.13.1)

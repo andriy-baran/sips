@@ -9,7 +9,7 @@ class Manage::PointOfSalesController < ApplicationController
   # GET /manage/point_of_sales/1
   def show
     @result = Manage::PointOfSales::UpdateHandler.new(params)
-    @point_of_sale = @result.pos
+    @point_of_sale = @result.point_of_sale
     @stock_data = { labels: [], datasets: [] }
     dataset = { label: '', data: [], background_color: [] }
     Product.all.each do |product|
@@ -40,10 +40,10 @@ class Manage::PointOfSalesController < ApplicationController
   end
 
   # GET /manage/point_of_sales/1/edit
-  def edit
-    @result = Manage::PointOfSales::UpdateHandler.new(params.to_unsafe_h.symbolize_keys)
-    @point_of_sale = @result.point_of_sale
-    @errors = @result.errors
+  prepare :edit, handler: :update do |handler|
+    @point_of_sale = handler.point_of_sale
+    @form = handler.form
+    @errors = handler.errors
   end
 
   # POST /manage/point_of_sales
@@ -60,12 +60,13 @@ class Manage::PointOfSalesController < ApplicationController
   # PATCH/PUT /manage/point_of_sales/1
   handle :update do |handler|
     handler.success do
-      redirect_to [:manage, handler.pos], notice: 'Point of sale was successfully updated.'
+      redirect_to [:manage, handler.point_of_sale], notice: 'Point of sale was successfully updated.'
     end
 
     handler.failure do
       @errors = handler.errors
       @point_of_sale = handler.point_of_sale
+      @form = handler.form
       render :edit
     end
   end

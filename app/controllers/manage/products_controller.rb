@@ -3,29 +3,27 @@ class Manage::ProductsController < ApplicationController
   # before_action :set_product, only: %i[show edit update destroy]
 
   # GET /manage/products
-  def index
-    @products = Product.includes(:variants)
+  prepare :index do |handler|
+    @products = handler.products
+    @form = handler.form
   end
 
   # GET /manage/products/1
-  def show
-    @presenter = Manage::Products::UpdateHandler.new(params.to_unsafe_h.symbolize_keys)
-    @product = @presenter.product
+  prepare :show, handler: :update do |handler|
+    @product = handler.product
   end
 
   # GET /manage/products/new
-  ask :new, handler: :create do |handler|
+  prepare :new, handler: :create do |handler|
     @product = handler.product
     @product.variants.build
     @form = handler.form
-    @errors = handler.errors
   end
 
   # GET /manage/products/1/edit
-  ask :edit, handler: :update do |handler|
-    @form = handler.form
+  prepare :edit, handler: :update do |handler|
     @product = handler.product
-    @errors = handler.errors
+    @form = handler.form
   end
 
   # POST /manage/products
@@ -35,7 +33,6 @@ class Manage::ProductsController < ApplicationController
     end
 
     handler.failure do
-      @errors = handler.errors
       @product = handler.product
       @form = handler.form
       render :new
@@ -49,7 +46,6 @@ class Manage::ProductsController < ApplicationController
     end
 
     handler.failure do
-      @errors = handler.errors
       @form = handler.form
       @product = handler.product
       render :edit
@@ -57,8 +53,8 @@ class Manage::ProductsController < ApplicationController
   end
 
   # DELETE /manage/products/1
-  def destroy
-    Manage::Products::UpdateHandler.new(params).product.destroy
+  handle :destroy, handler: :update do |handler|
+    handler.product.destroy
     redirect_to manage_products_url, notice: 'Product was successfully destroyed.'
   end
 end
