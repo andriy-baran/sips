@@ -24,6 +24,6 @@ table.table
         td
           = link_to 'Змінити', edit_manage_product_path(product), class: 'btn btn-warning btn-sm'
         td
-          / = link_to 'Видалити', [:manage, product], method: :delete, data: { confirm: 'Точно хочете видалити?' }, class: 'btn btn-danger btn-sm'
+          = link_to 'Видалити', [:manage, product], method: :delete, data: { confirm: 'Точно хочете видалити?' }, class: 'btn btn-danger btn-sm'
 br
 = link_to 'Додати Продукт', new_manage_product_path, class: 'btn btn-success'

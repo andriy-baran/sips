@@ -2,7 +2,7 @@ class Manage::Products::CreateHandler < ApplicationHandler
   form  Manage::Products::ModelForm
 
   memoize def product
-    Product.new
+    Product.new(form_params.to_h)
   end
 
   def add_to_stock!
@@ -17,13 +17,11 @@ class Manage::Products::CreateHandler < ApplicationHandler
     { model: [:manage, product], id: helpers.dom_id(product) }
   end
 
-  def create
-    product.assign_attributes(params.product.to_h)
+  def call
     ApplicationRecord.transaction do
       product.save!
       add_to_stock!
     rescue => e
-      binding.pry
       errors.add(:base, :unprocessable_entity, message: e.message)
       raise ActiveRecord::Rollback
     end

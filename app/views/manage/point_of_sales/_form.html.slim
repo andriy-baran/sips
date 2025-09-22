@@ -1,3 +1,12 @@
+- if @errors.any?
+    .card.mb-3.border-danger
+      .card-body.text-danger
+        h3
+          = pluralize(@errors.count, "error")
+          |  prohibited this point_of_sale from being saved:
+        ul
+          - @errors.full_messages.each do |message|
+            li= message
 = render @form
 
 - form_with(model: [:manage, point_of_sale], local: true) do |form|

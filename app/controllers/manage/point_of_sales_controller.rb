@@ -2,8 +2,9 @@ class Manage::PointOfSalesController < ApplicationController
   before_action :authenticate_account!
 
   # GET /manage/point_of_sales
-  def index
-    @point_of_sales = PointOfSale.includes(:place)
+  action :index do |handler|
+    @point_of_sales = handler.point_of_sales
+    @form = handler.form
   end
 
   # GET /manage/point_of_sales/1
@@ -32,39 +33,41 @@ class Manage::PointOfSalesController < ApplicationController
   end
 
   # GET /manage/point_of_sales/new
-  def new
-    @result = Manage::PointOfSales::CreateHandler.new
-    @point_of_sale = @result.point_of_sale
-    @point_of_sale.build_place
-    @errors = @result.errors
+  action :new, handler: :create do |handler|
+    @point_of_sale = handler.point_of_sale
+    # @point_of_sale.build_place
+    @form = handler.form
+    @errors = handler.errors
   end
 
   # GET /manage/point_of_sales/1/edit
-  prepare :edit, handler: :update do |handler|
+  action :edit, handler: :update do |handler|
     @point_of_sale = handler.point_of_sale
+    # @point_of_sale.build_place
     @form = handler.form
     @errors = handler.errors
   end
 
   # POST /manage/point_of_sales
-  handle :create do |handler|
+  action :create do |handler|
     handler.success do
       redirect_to [:manage, handler.point_of_sale], notice: 'Point of sale was successfully created.'
     end
     handler.failure do
       @point_of_sale = handler.point_of_sale
+      @errors = handler.errors
+      @form = handler.form
       render :new
     end
   end
 
   # PATCH/PUT /manage/point_of_sales/1
-  handle :update do |handler|
+  action :update do |handler|
     handler.success do
       redirect_to [:manage, handler.point_of_sale], notice: 'Point of sale was successfully updated.'
     end
 
     handler.failure do
-      @errors = handler.errors
       @point_of_sale = handler.point_of_sale
       @form = handler.form
       render :edit
@@ -72,8 +75,8 @@ class Manage::PointOfSalesController < ApplicationController
   end
 
   # DELETE /manage/point_of_sales/1
-  def destroy
-    Manage::PointOfSales::UpdateHandler.new(params).point_of_sale.destroy
+  action :destroy, handler: :update do |handler|
+    handler.destroy
     redirect_to manage_point_of_sales_url, notice: 'Point of sale was successfully destroyed.'
   end
 end

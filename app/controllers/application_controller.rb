@@ -1,27 +1,19 @@
 class ApplicationController < ActionController::Base
-  def self.handle(action_name, class_name: nil, &block)
-    define_method(action_name) do
-      handler_klass = handler_class_for(class_name, action_name)
-      handler_klass.handle(params) do |handler|
-        handler.helpers = view_context
-        instance_exec(handler, &block)
-      end
-    end
-  end
-
-  def self.ask(action_name, class_name: nil, handler: nil, &block)
+  def self.action(action_name, class_name: nil, handler: action_name, &block)
     define_method(action_name) do
       handler_klass = handler_class_for(class_name, handler)
-      handler_instance = handler_klass.new(params)
-      handler_instance.helpers = view_context
-      instance_exec(handler_instance, &block)
+      handler_klass.handle(params) do |handler_instance|
+        handler_instance.helpers = view_context
+        instance_exec(handler_instance, &block)
+        failure_callbacks(handler_instance)
+      end
     end
   end
 
   private
 
   def handler_class_for(class_name, action_name = params[:action])
-    return class_name if class_name
+    return class_name.constantize if class_name
 
     "#{[params[:controller], action_name].compact.join('/')}_handler".classify.constantize
   end
@@ -33,6 +25,12 @@ class ApplicationController < ActionController::Base
       request.env['omniauth.origin'] || stored_location_for(resource) || trade_point_of_sale_path(resource.pos_id)
     else
       request.env['omniauth.origin'] || stored_location_for(resource) || root_path
+    end
+  end
+
+  def failure_callbacks(handler)
+    handler.failure(:not_found) do
+      render file: Rails.root.join('public', '404.html').to_s, status: handler.http_status
     end
   end
 end
