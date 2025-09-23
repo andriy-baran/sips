@@ -1,5 +1,5 @@
 class Manage::PointOfSales::UpdateHandler < ApplicationHandler
-  params do
+  url_params do
     integer :id, presence: true
   end
 
@@ -9,7 +9,7 @@ class Manage::PointOfSales::UpdateHandler < ApplicationHandler
 
   form Manage::PointOfSales::ModelForm
 
-  finder :point_of_sale, -> { PointOfSale.find_by(id: params.id) }, validate_existence: true
+  finder :point_of_sale, -> { PointOfSale.find_by(id: url_params.id) }, validate_existence: true
 
   def call
     point_of_sale.update(form_params.to_h)

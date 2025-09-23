@@ -1,7 +1,7 @@
 class Manage::Products::CreateHandler < ApplicationHandler
   form  Manage::Products::ModelForm
 
-  memoize def product
+  verify memoize def product
     Product.new(form_params.to_h)
   end
 

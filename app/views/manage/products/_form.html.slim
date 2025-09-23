@@ -1,2 +1,10 @@
+- if @errors.any?
+  .card.mb-3.border-danger
+    .card-header.bg-danger.text-white
+      = pluralize(@errors.count, "error")
+      |  prohibited this product from being saved:
+    ul.list-group.list-group-flush
+      - @errors.full_messages.each do |message|
+        li.list-group-item.list-group-item-danger= message
 = render @form
 

@@ -1,11 +1,11 @@
 class Manage::Products::UpdateHandler < ApplicationHandler
   form Manage::Products::ModelForm
 
-  params do
+  url_params do
     integer :id, presence: true
   end
 
-  finder :product, -> { Product.find_by(id: params.id) }, validate_existence: true
+  finder :product, -> { Product.find_by(id: url_params.id) }, validate_existence: true
 
   def call
     product.update(form_params.to_h)

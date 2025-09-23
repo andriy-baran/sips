@@ -49,7 +49,7 @@ class Manage::PointOfSalesController < ApplicationController
   end
 
   # POST /manage/point_of_sales
-  action :create do |handler|
+  action :create, act: :call do |handler|
     handler.success do
       redirect_to [:manage, handler.point_of_sale], notice: 'Point of sale was successfully created.'
     end
@@ -62,7 +62,7 @@ class Manage::PointOfSalesController < ApplicationController
   end
 
   # PATCH/PUT /manage/point_of_sales/1
-  action :update do |handler|
+  action :update, act: :call do |handler|
     handler.success do
       redirect_to [:manage, handler.point_of_sale], notice: 'Point of sale was successfully updated.'
     end
@@ -75,8 +75,7 @@ class Manage::PointOfSalesController < ApplicationController
   end
 
   # DELETE /manage/point_of_sales/1
-  action :destroy, handler: :update do |handler|
-    handler.destroy
+  action :destroy, handler: :update, act: :destroy do |handler|
     redirect_to manage_point_of_sales_url, notice: 'Point of sale was successfully destroyed.'
   end
 end

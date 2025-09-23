@@ -1,5 +1,5 @@
 class ApplicationHandler < SteelWheel::Handler
-  params do
+  url_params do
     string :controller
     string :action
   end

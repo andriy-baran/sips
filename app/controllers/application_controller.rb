@@ -1,8 +1,8 @@
 class ApplicationController < ActionController::Base
-  def self.action(action_name, class_name: nil, handler: action_name, &block)
+  def self.action(action_name, class_name: nil, handler: action_name, act: nil, &block)
     define_method(action_name) do
       handler_klass = handler_class_for(class_name, handler)
-      handler_klass.handle(params) do |handler_instance|
+      handler_klass.handle(act, params) do |handler_instance|
         handler_instance.helpers = view_context
         instance_exec(handler_instance, &block)
         failure_callbacks(handler_instance)
