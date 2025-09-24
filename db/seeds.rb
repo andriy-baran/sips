@@ -14,7 +14,7 @@ product4 = Product.create(title: 'Мигдаль')
 product5 = Product.create(title: 'Грецький')
 product6 = Product.create(title: 'Лісовий')
 
-weights = ['90 gram', '80 gram', '70 gram', '60 gram', '50 gram']
+weights = ['90 g', '80 g', '70 g', '60 g', '50 g']
 prices = ['90 UAH', '80 UAH', '70 UAH', '60 UAH', '50 UAH']
 
 products = [product1, product2, product3, product4, product5, product6]

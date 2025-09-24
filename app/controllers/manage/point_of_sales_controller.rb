@@ -1,14 +1,16 @@
 class Manage::PointOfSalesController < ApplicationController
   before_action :authenticate_account!
-  before_action :set_point_of_sale, only: [:show, :edit, :update, :destroy]
 
   # GET /manage/point_of_sales
-  def index
-    @point_of_sales = PointOfSale.includes(:place)
+  action :index do |handler|
+    @point_of_sales = handler.point_of_sales
+    @form = handler.form
   end
 
   # GET /manage/point_of_sales/1
   def show
+    @result = Manage::PointOfSales::UpdateHandler.new(params)
+    @point_of_sale = @result.point_of_sale
     @stock_data = { labels: [], datasets: [] }
     dataset = { label: '', data: [], background_color: [] }
     Product.all.each do |product|
@@ -31,52 +33,49 @@ class Manage::PointOfSalesController < ApplicationController
   end
 
   # GET /manage/point_of_sales/new
-  def new
-    @point_of_sale = PointOfSale.new
+  action :new, handler: :create do |handler|
+    @point_of_sale = handler.point_of_sale
+    # @point_of_sale.build_place
+    @form = handler.form
+    @errors = handler.errors
   end
 
   # GET /manage/point_of_sales/1/edit
-  def edit
+  action :edit, handler: :update do |handler|
+    @point_of_sale = handler.point_of_sale
+    # @point_of_sale.build_place
+    @form = handler.form
+    @errors = handler.errors
   end
 
   # POST /manage/point_of_sales
-  def create
-    @operation = Manage::PointOfSales::Create.new(point_of_sale_params)
-    result = @operation.call
-
-    if true
-      redirect_to [:manage, result.pos], notice: 'Point of sale was successfully created.'
-    else
+  action :create, act: :call do |handler|
+    handler.success do
+      redirect_to [:manage, handler.point_of_sale], notice: 'Point of sale was successfully created.'
+    end
+    handler.failure do
+      @point_of_sale = handler.point_of_sale
+      @errors = handler.errors
+      @form = handler.form
       render :new
     end
   end
 
   # PATCH/PUT /manage/point_of_sales/1
-  def update
-    @operation = Manage::PointOfSales::Update.new(@point_of_sale, point_of_sale_params)
-    result = @operation.call
+  action :update, act: :call do |handler|
+    handler.success do
+      redirect_to [:manage, handler.point_of_sale], notice: 'Point of sale was successfully updated.'
+    end
 
-    if true
-      redirect_to [:manage, result.pos], notice: 'Point of sale was successfully updated.'
-    else
+    handler.failure do
+      @point_of_sale = handler.point_of_sale
+      @form = handler.form
       render :edit
     end
   end
 
   # DELETE /manage/point_of_sales/1
-  def destroy
-    @point_of_sale.destroy
+  action :destroy, handler: :update, act: :destroy do |handler|
     redirect_to manage_point_of_sales_url, notice: 'Point of sale was successfully destroyed.'
   end
-
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_point_of_sale
-      @point_of_sale = PointOfSale.find(params[:id])
-    end
-
-    # Only allow a trusted parameter "white list" through.
-    def point_of_sale_params
-      params.fetch(:point_of_sale, {}).permit(:title, :city, :address)
-    end
 end

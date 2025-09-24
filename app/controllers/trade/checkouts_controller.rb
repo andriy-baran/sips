@@ -19,19 +19,23 @@ class Trade::CheckoutsController < ApplicationController
   end
 
   def create
-    @product = Product.find_by(id: params[:product_id])
+    result = Trade::Checkouts::CreateHandler.handle(input: params) do |i|
+      i.query.current_account = current_account
+    end
+    # @product = Product.find_by(id: params[:product_id])
+    binding.pry
     if @product
-      weight_kilogram = params[:weight_kilogram].sub(',', '.').to_f
-      attrs = {
-          product_id: params[:product_id],
-          pos_id: params[:point_of_sale_id],
-          account_id: current_account.id,
-          quantity: 1,
-          weight_kilogram: weight_kilogram,
-          kind: 'checkout'
-      }
-      @stock = Stock.create(attrs)
-      @product_stock.update_column(:on_hand, weight_kilogram)
+      # weight_kilogram = params[:weight_kilogram].sub(',', '.').to_f
+      # attrs = {
+      #     product_id: params[:product_id],
+      #     pos_id: params[:point_of_sale_id],
+      #     account_id: current_account.id,
+      #     quantity: 1,
+      #     weight_kilogram: weight_kilogram,
+      #     kind: 'checkout'
+      # }
+      # @stock = Stock.create(attrs)
+      # @product_stock.update_column(:on_hand, weight_kilogram)
       render partial: 'checkout', locals: { stock: @stock, point_of_sale: @point_of_sale }
     end
   end

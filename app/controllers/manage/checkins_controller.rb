@@ -22,21 +22,18 @@ class Manage::CheckinsController < ApplicationController
   end
 
   def create
-    @product = Product.find_by(id: params[:product_id])
-    weight_kilogram = params[:weight_kilogram].sub(',', '.').to_f
-    total = @product_stock.on_hand + weight_kilogram
-    if @product
-      attrs = {
-          product_id: params[:product_id],
-          pos_id: params[:point_of_sale_id],
-          account_id: current_account.id,
-          quantity: 1,
-          weight_kilogram: weight_kilogram,
-          kind: 'checkin'
-      }
-      @stock = Stock.create(attrs)
-      @product_stock.update_column(:on_hand, total)
-      render partial: 'checkin', locals: { stock: @stock, point_of_sale: @point_of_sale, product_stock: @product_stock }
+    result = Trade::Checkouts::CreateHandler.handle(input: params.to_unsafe_h) do |i|
+      i.query.current_account = current_account
+      i.query.point_of_sale = @point_of_sale
+      i.query.product_stock = @product_stock
+    end
+    if result.success?
+      render partial: 'checkin',
+             locals: {
+               stock: result.stock,
+               point_of_sale: result.point_of_sale,
+               product_stock: @product_stock
+             }
     end
   end
 

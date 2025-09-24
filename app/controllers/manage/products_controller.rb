@@ -1,63 +1,59 @@
 class Manage::ProductsController < ApplicationController
   before_action :authenticate_account!
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
 
   # GET /manage/products
-  def index
-    @products = Product.all
+  action :index do |handler|
+    @products = handler.products
+    @form = handler.form
   end
 
   # GET /manage/products/1
-  def show
+  action :show, handler: :update do |handler|
+    @product = handler.product
   end
 
   # GET /manage/products/new
-  def new
-    @product = Product.new
+  action :new, handler: :create do |handler|
+    @product = handler.product
+    # @product.variants.build
+    @form = handler.form
   end
 
   # GET /manage/products/1/edit
-  def edit
+  action :edit, handler: :update do |handler|
+    @product = handler.product
+    @form = handler.form
   end
 
   # POST /manage/products
-  def create
-    @operation = Manage::Products::Create.new(product_params)
-    result = @operation.call
+  action :create, act: :call do |handler|
+    handler.success do
+      redirect_to [:manage, handler.product], notice: 'Product was successfully created.'
+    end
 
-    if true
-      redirect_to [:manage, result.product], notice: 'Product was successfully created.'
-    else
+    handler.failure do
+      @product = handler.product
+      @form = handler.form
+      @errors = handler.errors
       render :new
     end
   end
 
   # PATCH/PUT /manage/products/1
-  def update
-    @operation = Manage::Products::Update.new(@product, product_params)
-    result = @operation.call
+  action :update, act: :call do |handler|
+    handler.success do
+      redirect_to [:manage, handler.product], notice: 'Product was successfully updated.'
+    end
 
-    if true
-      redirect_to [:manage, result.product], notice: 'Product was successfully updated.'
-    else
+    handler.failure do
+      @form = handler.form
+      @product = handler.product
       render :edit
     end
   end
 
   # DELETE /manage/products/1
-  def destroy
-    @product.destroy
+  action :destroy, handler: :update, act: :destroy do |handler|
     redirect_to manage_products_url, notice: 'Product was successfully destroyed.'
   end
-
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_product
-      @product = Product.find(params[:id])
-    end
-
-    # Only allow a trusted parameter "white list" through.
-    def product_params
-      params.fetch(:product, {}).permit(:title, :weight, :price)
-    end
 end

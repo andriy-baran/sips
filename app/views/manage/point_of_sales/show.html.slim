@@ -5,12 +5,12 @@
   .col-md-6.mt-4
     .card
       .card-header.py-0.text-center Залишки
-      .card-body style="height: 350px;"
+      .card-body style="height: 400px;"
         = horizontal_bar_chart @stock_data, { responsive: true, maintainAspectRatio: false, scales: { xAxes: [ { ticks: { beginAtZero: true } } ], yAxes: [ { ticks: { mirror: false } } ] } }
   .col-md-6.mt-4
     .card
       .card-header.py-0.text-center Доходи
-      .card-body style="height: 350px;"
+      .card-body style="height: 400px;"
         = line_chart @sell_data, { responsive: true, maintainAspectRatio: false, scales: { xAxes: [ { ticks: { beginAtZero: true } } ], yAxes: [ { ticks: { mirror: false } } ] } }
 .mt-4
 = link_to 'Змінити', edit_manage_point_of_sale_path(@point_of_sale), class: 'btn btn-warning mr-1'
