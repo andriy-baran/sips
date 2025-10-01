@@ -52,8 +52,8 @@ sellers = [seller1, seller2, seller3]
         account_id: seller.id,
         quantity: rand(1..3),
       }
-      Cashbox.create(attrs.merge(price_uah: product.variant.price.to_f, kind: %w(cash card).sample))
-      Stock.create(attrs.merge(weight_kilogram: product.variant.weight.convert_to('kilogram'), kind: 'sell'))
+      Cashbox.create(attrs.merge(price_uah: product.variants.sample.price.to_f, kind: %w(cash card).sample))
+      Stock.create(attrs.merge(weight_kilogram: product.variants.sample.weight.convert_to('kilogram'), kind: 'sell'))
     end
     products.each do |product|
       sellers.each do |seller|

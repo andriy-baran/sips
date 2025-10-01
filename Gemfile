@@ -13,8 +13,8 @@ gem 'font-awesome-rails'
 gem 'jquery-rails'
 gem 'letter_opener', group: :development
 gem 'money-rails'
-# gem 'pg'  # Commented out for SQLite development
-gem 'sqlite3', '~> 2.7'
+gem 'pg'  # Commented out for SQLite development
+# gem 'sqlite3', '~> 2.7'
 gem 'puma'
 gem 'rails', '~> 8.0.2'
 gem 'rails-i18n'
