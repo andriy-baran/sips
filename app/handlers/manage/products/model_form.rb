@@ -9,7 +9,7 @@ module Manage
         label(class: 'col-4 col-form-label')
       end
 
-      has_many :variants, default: [{}] do
+      many :variants, default: [{}] do
         subform do
           element :weight do
             input(type: :text, class: 'form-control')
@@ -22,8 +22,8 @@ module Manage
             output(type: :string, presence: true)
             label(class: 'col-4 col-form-label')
 
-            def value
-              super&.format(symbol: 'UAH')
+            def html_value
+              (value || Money.new(0, 'UAH')).format(symbol: 'UAH')
             end
           end
 

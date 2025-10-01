@@ -17,12 +17,14 @@ class Manage::ProductsController < ApplicationController
     @product = handler.product
     # @product.variants.build
     @form = handler.form
+    @errors = handler.errors
   end
 
   # GET /manage/products/1/edit
   action :edit, handler: :update do |handler|
     @product = handler.product
     @form = handler.form
+    @errors = handler.errors
   end
 
   # POST /manage/products
@@ -48,6 +50,7 @@ class Manage::ProductsController < ApplicationController
     handler.failure do
       @form = handler.form
       @product = handler.product
+      @errors = handler.errors
       render :edit
     end
   end

@@ -27,8 +27,4 @@ class Manage::PointOfSales::IndexHandler < ApplicationHandler
   filterable def point_of_sales
     PointOfSale.includes(:place)
   end
-
-  def call
-    # NOOP
-  end
 end
