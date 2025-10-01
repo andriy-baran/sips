@@ -3,7 +3,7 @@ class Manage::PointOfSales::IndexHandler < ApplicationHandler
     { method: :get, action: helpers.manage_point_of_sales_path, params: form_params }
   end
 
-  form EasyForm::Base do
+  form ActionForm::Base do
     element :city do
       input(type: :select, class: 'form-control')
       output(type: :string)

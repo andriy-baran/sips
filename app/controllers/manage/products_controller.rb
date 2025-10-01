@@ -28,7 +28,7 @@ class Manage::ProductsController < ApplicationController
   end
 
   # POST /manage/products
-  action :create, act: :call do |handler|
+  action :create do |handler|
     handler.success do
       redirect_to [:manage, handler.product], notice: 'Product was successfully created.'
     end
@@ -42,7 +42,7 @@ class Manage::ProductsController < ApplicationController
   end
 
   # PATCH/PUT /manage/products/1
-  action :update, act: :call do |handler|
+  action :update do |handler|
     handler.success do
       redirect_to [:manage, handler.product], notice: 'Product was successfully updated.'
     end
@@ -56,7 +56,7 @@ class Manage::ProductsController < ApplicationController
   end
 
   # DELETE /manage/products/1
-  action :destroy, handler: :update, act: :destroy do |handler|
+  action :destroy, handler: :update do |handler|
     redirect_to manage_products_url, notice: 'Product was successfully destroyed.'
   end
 end

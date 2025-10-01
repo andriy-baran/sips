@@ -11,6 +11,10 @@ class Manage::PointOfSales::UpdateHandler < ApplicationHandler
 
   finder :point_of_sale, -> { PointOfSale.find_by(id: url_params.id) }, validate_existence: true
 
+  def on_validation_success
+    call if current_action.update?
+  end
+
   def call
     point_of_sale.update(form_params.to_h)
   end

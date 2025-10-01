@@ -1,4 +1,4 @@
-class Manage::PointOfSales::ModelForm < EasyForm::Rails::Base
+class Manage::PointOfSales::ModelForm < ActionForm::Rails::Base
   include FormViews::HorizontalElement
 
   resource_model PointOfSale
@@ -13,7 +13,7 @@ class Manage::PointOfSales::ModelForm < EasyForm::Rails::Base
     end
   end
 
-  has_one :place, default: {} do
+  subform :place, default: {} do
     include FormViews::HorizontalElement
 
     element :city do

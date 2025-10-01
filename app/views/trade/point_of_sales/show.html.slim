@@ -20,14 +20,15 @@
   .products.col-4.border.float-right.py-3.h-100.rounded-right style='overflow-y: scroll'
     .list-group
       - @products.each do |product|
-        .list-group-item.product*{'data-id' => product.variant.id, 'data-product' => product.title, 'data-price' => product.variant.price.to_i  }
-          p.mb-0
-            = product.title
-            | &nbsp;
-            span.d-none.d-sm-inline
-              = "(#{product.variant.price.format})"
-          small.text-muted.d-inline.d-sm-none = product.variant.price.format
-          small.text-muted.d-none.d-sm-inline = product.variant.weight
+        - product.variants.each do |variant|
+          .list-group-item.product*{'data-id' => variant.id, 'data-product' => product.title, 'data-price' => variant.price.to_i  }
+            p.mb-0
+              = product.title
+              | &nbsp;
+              span.d-none.d-sm-inline
+                = "(#{variant.price.format} / #{variant.weight})"
+          small.text-muted.d-inline.d-sm-none = variant.price.format
+          small.text-muted.d-none.d-sm-none = variant.weight
   .col.px-0.w-100.mt-2.order-controls
     .col-6.float-left.pl-0
       button.btn.btn-outline-success.btn-lg.btn-block.payment.font-weight-bold Оплата

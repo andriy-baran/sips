@@ -7,6 +7,11 @@ class Manage::Products::UpdateHandler < ApplicationHandler
 
   finder :product, -> { Product.find_by(id: url_params.id) }, validate_existence: true
 
+  def on_validation_success
+    call if current_action.update?
+    destroy if current_action.destroy?
+  end
+
   def call
     product.update(form_params.to_h)
   end

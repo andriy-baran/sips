@@ -21,19 +21,10 @@ class Manage::CheckinsController < ApplicationController
     end
   end
 
-  def create
-    result = Trade::Checkouts::CreateHandler.handle(input: params.to_unsafe_h) do |i|
-      i.query.current_account = current_account
-      i.query.point_of_sale = @point_of_sale
-      i.query.product_stock = @product_stock
-    end
-    if result.success?
+  action :create, handler: 'trade/checkouts/create' do |handler|
+    handler.success do
       render partial: 'checkin',
-             locals: {
-               stock: result.stock,
-               point_of_sale: result.point_of_sale,
-               product_stock: @product_stock
-             }
+             locals: { stock: handler.stock, point_of_sale: handler.point_of_sale, product_stock: handler.product_stock}
     end
   end
 
