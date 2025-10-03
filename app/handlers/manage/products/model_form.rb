@@ -1,6 +1,6 @@
 module Manage
   module Products
-    class ModelForm < EasyForm::Rails::Base
+    class ModelForm < ActionForm::Rails::Base
       resource_model Product
 
       element :title do
@@ -11,6 +11,7 @@ module Manage
 
       many :variants, default: [{}] do
         subform do
+          include FormViews::VerticalElement
           element :weight do
             input(type: :text, class: 'form-control')
             output(type: :string, presence: true, format: { with: /\A[0-9]+\s[g|kg]\z/ }, normalize: ->(v) { v.sub('gram', 'g') })
@@ -23,17 +24,7 @@ module Manage
             label(class: 'col-4 col-form-label')
 
             def html_value
-              (value || Money.new(0, 'UAH')).format(symbol: 'UAH')
-            end
-          end
-
-          def render_element(element)
-            render_label(element)
-            render_input(element, class: element.tags[:errors] ? 'is-invalid' : '')
-            if element.tags[:errors]
-              div(class: 'invalid-feedback') do
-                element.errors_messages.join(', ')
-              end
+              value.nil? ? Money.new(0, 'UAH').to_s : value.is_a?(Money) ? value.format(symbol: 'UAH') : value
             end
           end
         end

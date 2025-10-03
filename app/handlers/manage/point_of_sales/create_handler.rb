@@ -10,7 +10,7 @@ class Manage::PointOfSales::CreateHandler < ApplicationHandler
   end
 
   def on_validation_success
-    call if action.create?
+    call if current_action.create?
   end
 
   def call

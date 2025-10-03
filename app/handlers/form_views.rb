@@ -27,5 +27,11 @@ module FormViews
         render_inline_errors(element) if element.tags[:errors]
       end
     end
+
+    def render_inline_errors(element)
+      div(class: 'invalid-feedback') do
+        element.errors_messages.join(', ')
+      end
+    end
   end
 end

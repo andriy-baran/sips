@@ -3,7 +3,7 @@ class Manage::Products::IndexHandler < ApplicationHandler
     { method: :get, action: helpers.manage_products_path, params: form_params }
   end
 
-  form EasyForm::Base do
+  form ActionForm::Base do
     element :title do
       input(type: :text, class: 'form-control')
       output(type: :string)
