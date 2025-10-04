@@ -11,16 +11,16 @@ PATH
   remote: /Users/horizon/steel_wheel
   specs:
     steel_wheel (0.6.1)
-      action_form (~> 0.1)
-      easy_params (~> 0.6.3)
+      action_form (~> 0.2)
+      easy_params (~> 0.7)
       memery (~> 1)
       railties (>= 3.2, < 9)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    action_form (0.1.0)
-      easy_params (~> 0.6.3)
+    action_form (0.2.0)
+      easy_params (~> 0.7)
       phlex (>= 2)
       railties (>= 6.0.0)
     actioncable (8.0.2)
@@ -148,7 +148,7 @@ GEM
       devise (>= 4.9.0)
       rails-i18n
     drb (2.2.3)
-    easy_params (0.6.3)
+    easy_params (0.7.0)
       activemodel (>= 3.2)
     erb (5.0.2)
     erubi (1.13.1)
@@ -192,7 +192,7 @@ GEM
       net-smtp
     marcel (1.0.4)
     matrix (0.4.3)
-    memery (1.7.0)
+    memery (1.8.0)
     memoizable (0.4.2)
       thread_safe (~> 0.3, >= 0.3.1)
     method_source (1.1.0)

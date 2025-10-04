@@ -19,12 +19,12 @@ module Manage
           end
 
           element :price do
-            input(type: :text, class: 'form-control')
-            output(type: :string, presence: true)
+            input(type: :text, default: Money.new(0, 'UAH'), class: 'form-control')
+            output(type: :money, presence: true)
             label(class: 'col-4 col-form-label')
 
             def html_value
-              value.nil? ? Money.new(0, 'UAH').to_s : value.is_a?(Money) ? value.format(symbol: 'UAH') : value
+              value.format(symbol: 'UAH')
             end
           end
         end
