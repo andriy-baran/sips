@@ -1,0 +1,71 @@
+h1 Dashboard
+
+/ Gridstack container
+.grid-stack#dashboard-grid
+  .grid-stack-item[data-gs-x="0" data-gs-y="0" data-gs-w="6" data-gs-h="4"]
+    .grid-stack-item-content
+      .card.text-white.bg-success.h-100
+        .card-body
+          .row.d-flex.align-items-center
+            .col-4
+              i.fa.fa-money.fa-4x
+            .col-8
+              h3.mb-0 = "#{@sold_today} UAH".to_money.format
+              | Зароблено сьогодні
+
+  .grid-stack-item[data-gs-x="6" data-gs-y="0" data-gs-w="6" data-gs-h="4"]
+    .grid-stack-item-content
+      .card.text-white.bg-warning.h-100
+        .card-body
+          .row.d-flex.align-items-center
+            .col-4
+              i.fa.fa-shopping-cart.fa-4x
+            .col-8
+              h3.mb-0 = @number_today || 0
+              | Порцій продано
+
+  .grid-stack-item[data-gs-x="0" data-gs-y="4" data-gs-w="8" data-gs-h="6"]
+    .grid-stack-item-content
+      .card.h-100
+        .card-header
+          h5.mb-0 Прибуток по точках
+        .card-body
+          canvas#pos-income[style="height: 100%; width: 100%;"]
+
+  .grid-stack-item[data-gs-x="8" data-gs-y="4" data-gs-w="4" data-gs-h="6"]
+    .grid-stack-item-content
+      .card.h-100
+        .card-header
+          h5.mb-0 Залишки на точках
+        .card-body
+          .list-group.list-group-flush
+            - @stocks.each do |stock|
+              div class="list-group-item #{ stock.on_hand < 2 ? 'list-group-item-danger' : stock.on_hand < 3 ? 'list-group-item-warning' : 'list-group-item-success'}"
+                .row
+                  .col-6
+                    = stock.product.title
+                  .col-6.text-end
+                    = stock.on_hand.round(3)
+
+/ Sidebar for adding new widgets
+.sidebar#widget-sidebar
+  .card
+    .card-header
+      h5.mb-0 Доступні віджети
+    .card-body
+      .list-group
+        .list-group-item.draggable-widget[cursor="move" data-widget-type="sales-card"]
+          i.fa.fa-money.me-2
+          | Картка продажів
+        .list-group-item.draggable-widget[cursor="move" data-widget-type="inventory-card"]
+          i.fa.fa-boxes.me-2
+          | Складські запаси
+        .list-group-item.draggable-widget[cursor="move" data-widget-type="chart-card"]
+          i.fa.fa-chart-bar.me-2
+          | Графік прибутку
+
+/ Trash can for removing widgets
+.trash-can#trash-can
+  i.fa.fa-trash.fa-2x
+  p Видалити віджет
+

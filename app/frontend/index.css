@@ -3,10 +3,6 @@
 
 /* Import component styles */
 @import "./manage/analytics.css";
-@import "./manage/checkins.css";
-@import "./trade/checkouts.css";
-@import "./trade/orders.css";
-@import "./trade/point_of_sales.css";
 
 body {
   padding-top: 70px;

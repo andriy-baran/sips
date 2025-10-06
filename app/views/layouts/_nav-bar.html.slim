@@ -11,6 +11,8 @@
     ul.navbar-nav
       - if current_account&.has_role? :manager
         li.nav-item
+          = link_to 'Dashboard', manage_dashboard_index_path, class: 'nav-link'
+        li.nav-item
           = link_to 'Точки продажу', manage_point_of_sales_path, class: 'nav-link'
         li.nav-item
           = link_to 'Продукти', manage_products_path, class: 'nav-link'

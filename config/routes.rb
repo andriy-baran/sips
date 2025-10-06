@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     end
     resources :accounts
     resources :analytics, only: :index
+    resources :dashboard, only: :index
   end
 
   namespace :trade do
