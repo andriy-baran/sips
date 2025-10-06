@@ -4,13 +4,9 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.4.1'
 
 gem 'bootsnap', '>= 1.1.0', require: false
-gem 'bootstrap'
 gem 'chartjs-ror'
-gem 'coffee-rails'
 gem 'devise'
 gem 'devise-i18n'
-gem 'font-awesome-rails'
-gem 'jquery-rails'
 gem 'letter_opener', group: :development
 gem 'money-rails'
 gem 'pg'  # Commented out for SQLite development
@@ -19,12 +15,10 @@ gem 'puma'
 gem 'rails', '~> 8.0.2'
 gem 'rails-i18n'
 gem 'rolify'
-gem 'sass-rails'
 gem 'slim'
 gem 'steel_wheel', path: '/Users/horizon/steel_wheel'
+gem 'vite_rails'
 gem 'timecop'
-gem 'turbolinks'
-gem 'uglifier'
 gem 'unitwise'
 gem 'values'
 

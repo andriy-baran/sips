@@ -1,0 +1,17 @@
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import "font-awesome/css/font-awesome.min.css";
+
+/* Import component styles */
+@import "./manage/analytics.css";
+@import "./manage/checkins.css";
+@import "./trade/checkouts.css";
+@import "./trade/orders.css";
+@import "./trade/point_of_sales.css";
+
+body {
+  padding-top: 70px;
+}
+
+.alert-notice {
+  @extend .alert-info;
+}
