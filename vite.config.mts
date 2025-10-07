@@ -6,7 +6,8 @@ export default defineConfig({
   plugins: [
     inject({
       $: 'jquery',
-      jQuery: 'jquery'
+      jQuery: 'jquery',
+      include: ['**/*.js', '**/*.ts', '**/*.jsx', '**/*.tsx']
     }),
     RubyPlugin(),
   ],
@@ -14,13 +15,16 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['jquery', 'bootstrap'],
+          jquery: ['jquery', 'jquery-ui-dist/jquery-ui'],
+          gridstack: ['gridstack'],
+          bootstrap: ['bootstrap'],
+          chartjs: ['chart.js'],
           rails: ['@rails/ujs', 'turbolinks', '@rails/actioncable']
         }
       }
     }
   },
   optimizeDeps: {
-    include: ['jquery'], // Helps Vite optimize jQuery dependency
+    include: ['jquery', 'jquery-ui-dist'], // Helps Vite optimize jQuery dependencies
   },
 })

@@ -6,6 +6,7 @@
     "dev": "vite dev"
   },
   "devDependencies": {
+    "@rollup/plugin-inject": "^5.0.5",
     "vite": "^5.4.20",
     "vite-plugin-ruby": "^5.1.1"
   },
@@ -13,12 +14,12 @@
     "@popperjs/core": "^2.11.8",
     "@rails/actioncable": "^8.0.300",
     "@rails/ujs": "^7.1.3-4",
-    "@rollup/plugin-inject": "^5.0.5",
     "bootstrap": "^5.3.8",
     "chart.js": "^4.5.0",
     "font-awesome": "^4.7.0",
     "gridstack": "^12.3.3",
     "jquery": "^3.7.1",
+    "jquery-ui-dist": "^1.13.3",
     "turbolinks": "^5.2.0"
   }
 }

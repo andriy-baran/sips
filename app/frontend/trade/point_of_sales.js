@@ -106,3 +106,4 @@ function adoptHeight() {
   $('.pos-ui #order-items').height(ordersDivHeight - (totalDivHeight + headerDivHeight));
   $('.pos-ui #order-items').css({'margin-bottom': totalDivHeight});
 }
+
