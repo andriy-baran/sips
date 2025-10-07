@@ -78,12 +78,12 @@ function setTotal() {
 function renderTemplate(id, product, subtotal, quantity, price) {
   return '<div class="list-group-item py-2 line-item border-left-0 border-right-0" id="variant-'+id+'">'+
       '<div class="row d-flex align-items-center">'+
-        '<input name="order[items[]][variant_id]" type="hidden" id="variant_id" value="'+id+'">'+
+        '<input name="order[items][][variant_id]" type="hidden" id="variant_id" value="'+id+'">'+
         '<div class="col-7">'+
           '<big>'+product+'</big>'+
         '</div>'+
         '<div class="col-3 row">'+
-          '<input name="order[items[]][quantity]" class="form-control" min="0" type="number" id="quantity" value="'+quantity+'" data-price="'+price+'">'+
+          '<input name="order[items][][quantity]" class="form-control" min="0" type="number" id="quantity" value="'+quantity+'" data-price="'+price+'">'+
         '</div>'+
         '<div class="col-2 text-right pr-0 ml-3">'+
           '<big class="subtotal">'+subtotal+' UAH</big>'+

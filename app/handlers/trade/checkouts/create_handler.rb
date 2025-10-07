@@ -2,12 +2,20 @@ class Trade::Checkouts::CreateHandler < ApplicationHandler
   url_params do
     integer :product_id
     integer :point_of_sale_id
+    integer :pos_product_stock_id
     float :weight_kilogram, normalize: ->(v) { v.sub(',', '.') }
   end
 
   finder :product, -> { Product.find_by(id: url_params.product_id) }, validate_existence: true
   finder :point_of_sale, -> { PointOfSale.find_by(id: url_params.point_of_sale_id) }, validate_existence: true
-  finder :product_stock, -> { PosProductStock.find_by(pos_id: url_params.point_of_sale_id, product_id: url_params.product_id) }, validate_existence: true
+
+  memoize def product_stock
+    if url_params.pos_product_stock_id.present?
+      PosProductStock.find(url_params.pos_product_stock_id)
+    else
+      PosProductStock.where(pos_id: url_params.point_of_sale_id, product_id: url_params.product_id).first_or_create
+    end
+  end
 
   def new_stock_attrs
     {
