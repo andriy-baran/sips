@@ -1,54 +1,61 @@
 class Manage::AccountsController < ApplicationController
   before_action :authenticate_account!
-  before_action :set_account, only: [:show, :edit, :update, :destroy]
 
   # GET /manage/accounts
-  def index
-    @accounts = Account.all
+  action :index do |handler|
+    @accounts = handler.accounts
+    @form = handler.form
   end
 
-  def new
-    @account  = Account.new
+  # GET /manage/accounts/1
+  action :show, handler: :update do |handler|
+    @account = handler.account
   end
 
-  def create
-    @account = Account.new(account_params)
-    if @account.save
-      redirect_to manage_accounts_path
-    else
+  # GET /manage/accounts/new
+  action :new, handler: :create do |handler|
+    @account = handler.account
+    @form = handler.form
+    @errors = handler.errors
+  end
+
+  # GET /manage/accounts/1/edit
+  action :edit, handler: :update do |handler|
+    @account = handler.account
+    @form = handler.form
+    @errors = handler.errors
+  end
+
+  # POST /manage/accounts
+  action :create do |handler|
+    handler.success do
+      redirect_to [:manage, handler.account], notice: 'Account was successfully created.'
+    end
+
+    handler.failure do
+      @account = handler.account
+      @form = handler.form
+      @errors = handler.errors
       render :new
     end
   end
 
-  def show
+  # PATCH/PUT /manage/accounts/1
+  action :update do |handler|
+    handler.success do
+      redirect_to [:manage, handler.account], notice: 'Account was successfully updated.'
+    end
 
-  end
-
-  def edit
-
-  end
-
-  def update
-    if @account.update(account_params)
-      redirect_to manage_account_path(@account), notice: 'Акаунт оновлено'
-    else
-      render :new
+    handler.failure do
+      @form = handler.form
+      @account = handler.account
+      @errors = handler.errors
+      render :edit
     end
   end
 
   # DELETE /manage/accounts/1
-  def destroy
-    @account.destroy
+  action :destroy, handler: :update do |handler|
     redirect_to manage_accounts_url, notice: 'Account was successfully destroyed.'
-  end
-
-  private
-    # Use callbacks to share common setup or constraints between actions.
-  def set_account
-    @account = Account.find(params[:id])
-  end
-
-  def account_params
-    params.require(:account).permit(:email, :full_name, :phone, :password, :password_confirmation, :pos_id, :role)
   end
 end

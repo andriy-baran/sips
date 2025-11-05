@@ -1,4 +1,14 @@
-= form_with(model: [:manage, @account], local: true) do |f|
+- if @errors.any?
+  #error_explanation
+    h2
+      = pluralize(@errors.count, "error")
+      |  prohibited this @account from being saved:
+    ul
+      - @errors.full_messages.each do |message|
+        li
+          = message
+= render @form
+- form_with(model: [:manage, @account], local: true) do |f|
   - if @account.errors.any?
     #error_explanation
       h2

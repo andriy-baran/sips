@@ -1,10 +1,13 @@
 h1
   | Співробітники
+
+= render @form
 table.table
   thead
     tr
       th Ім'я
       th Телефон
+      th Email
       th[colspan="3"] Дії
   tbody
     - @accounts.each do |account|
@@ -13,6 +16,8 @@ table.table
           = account.full_name
         td
           = account.phone
+        td
+          = account.email
         td
           = link_to 'Показати', [:manage, account], class: 'btn btn-info btn-sm'
         td
