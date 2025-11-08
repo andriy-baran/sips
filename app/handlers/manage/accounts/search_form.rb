@@ -20,7 +20,7 @@ module Manage::Accounts
 
     element :pos_id do
       input(type: :select, class: 'form-control')
-      output(type: :string)
+      output(type: :integer, normalize: ->(value) { !value.present? ? nil : value.to_i })
       label(class: 'col-4 col-form-label', text: 'Точка Продажу')
       options(PointOfSale.all.map { |pos| [pos.id, pos.title] }.unshift(['', 'Усі точки продажу']))
     end

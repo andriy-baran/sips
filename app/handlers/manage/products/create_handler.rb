@@ -17,13 +17,12 @@ class Manage::Products::CreateHandler < ApplicationHandler
     { model: [:manage, product], id: helpers.dom_id(product) }
   end
 
+  def on_validation_success
+    call if current_action.create?
+  end
+
   def call
-    ApplicationRecord.transaction do
-      product.save!
-      add_to_stock!
-    rescue => e
-      errors.add(:base, :unprocessable_entity, message: e.message)
-      raise ActiveRecord::Rollback
-    end
+    product.save!
+    add_to_stock!
   end
 end

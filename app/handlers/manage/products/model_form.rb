@@ -11,21 +11,77 @@ module Manage
 
       many :variants, default: [{}] do
         subform do
-          include FormViews::VerticalElement
-          element :weight do
+          # include FormViews::VerticalElement
+
+          element :weight_value do
             input(type: :text, class: 'form-control')
-            output(type: :string, presence: true, format: { with: /\A[0-9]+\s[g|kg]\z/ }, normalize: ->(v) { v.sub('gram', 'g') })
-            label(class: 'col-4 col-form-label')
+            output(type: :string, presence: true, numericality: true)
+            label(display: false)
+            tags(group: :weight)
           end
 
-          element :price do
-            input(type: :text, default: Money.new(0, 'UAH'), class: 'form-control')
-            output(type: :money, presence: true)
-            label(class: 'col-4 col-form-label')
+          element :weight_unit do
+            input(type: :select, class: 'form-control')
+            output(type: :string, presence: true, inclusion: { in: ['g', 'kg'] })
+            label(display: false)
+            options([['g', 'грам'], ['kg', 'кілограм']])
+            tags(group: :weight)
+          end
 
-            def html_value
-              value.format(symbol: 'UAH')
+          element :price_value do
+            input(type: :text, default: 0.0, class: 'form-control')
+            output(type: :string, presence: true, numericality: true)
+            label(display: false)
+            tags(group: :price)
+          end
+
+          element :price_currency do
+            input(type: :select, class: 'form-control')
+            output(type: :string, presence: true, inclusion: { in: ['UAH', 'USD', 'EUR'] })
+            label(display: false)
+            options([['UAH', 'грн'], ['USD', 'usd'], ['EUR', 'eur']])
+            tags(group: :price)
+          end
+
+          def render_elements
+            elements = elements_instances.select(&:render?)
+            weight_elements = elements.select { |element| element.tags[:group] == :weight }
+            weight_has_errors = weight_elements.any? { |element| element.tags[:errors] }
+            div(class: 'mb-3') do
+              div(class: 'input-group') do
+                span(class: 'input-group-text') do
+                  'Вага'
+                end
+                weight_elements.map do |element|
+                  render_input(element, class: element.tags[:errors] ? 'is-invalid' : '')
+                end
+              end
+              if weight_has_errors
+                div(class: 'invalid-feedback d-block') do
+                  weight_elements.map(&:errors_messages).flatten.join(', ')
+                end
+              end
             end
+            weight_elements.each { |element| elements.delete(element) }
+            price_elements = elements.select { |element| element.tags[:group] == :price }
+            price_has_errors = price_elements.any? { |element| element.tags[:errors] }
+            div(class: 'mb-3') do
+              div(class: 'input-group') do
+                span(class: 'input-group-text') do
+                  'Ціна'
+                end
+                price_elements.map do |element|
+                  render_input(element, class: element.tags[:errors] ? 'is-invalid' : '')
+                end
+              end
+              if price_has_errors
+                div(class: 'invalid-feedback d-block') do
+                  price_elements.map(&:errors_messages).flatten.join(', ')
+                end
+              end
+            end
+            price_elements.each { |element| elements.delete(element) }
+            super(elements)
           end
         end
 
@@ -79,6 +135,29 @@ module Manage
         div(class: 'form-group row') do
           div(class: 'd-grid col-4 mx-auto my-3') do
             super(class: 'btn btn-primary', 'data-disable-with' => 'Зберегти', value: 'Зберегти')
+          end
+        end
+      end
+
+      params do
+        variants_attributes_schema do
+          def weight
+            "#{weight_value} #{weight_unit}"
+          end
+
+          def price
+            "#{price_value} #{price_currency}".to_money
+          end
+
+          def to_h
+            result = super
+            result[:weight] = weight
+            result.delete(:weight_value)
+            result.delete(:weight_unit)
+            result[:price] = price
+            result.delete(:price_value)
+            result.delete(:price_currency)
+            result
           end
         end
       end
